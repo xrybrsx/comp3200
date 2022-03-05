@@ -1,4 +1,14 @@
 Flask==1.1.2
 IPython
 plotly
-azure-cosmos
+azure.cosmos
+dash
+pandas
+yaml
+json
+requests
+plotly.express
+dash.dependencies
+dash_bootstrap_components
+azure.ai.textanalytics
+azure.core.credentials
