@@ -5,7 +5,6 @@ azure.cosmos
 dash
 pandas
 plotly.express
-dash.dependencies
 dash_bootstrap_components
 azure.ai.textanalytics
 azure.core.credentials
