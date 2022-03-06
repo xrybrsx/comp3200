@@ -27,7 +27,7 @@ jobs:
 
           pip install virtualenv
           python -m virtualenv venv
-          source venv/bin/activate
+          source /opt/hostedtoolcache/Python/3.9.10/x64/bin/activate
 
       - name: Install dependencies
         run: pip install -r requirements.txt
