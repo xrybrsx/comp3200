@@ -25,8 +25,8 @@ jobs:
       - name: Create and start virtual environment
         run: |
 
-          sudo apt-get upgrade python-virtualenv
-          python -m venv venv
+          pip install virtualenv
+          python -m virtualenv venv
           source venv/bin/activate
 
       - name: Install dependencies
