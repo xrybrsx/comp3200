@@ -4,8 +4,6 @@ plotly
 azure.cosmos
 dash
 pandas
-json
-requests
 plotly.express
 dash.dependencies
 dash_bootstrap_components
