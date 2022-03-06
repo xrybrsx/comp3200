@@ -18,13 +18,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up Python version
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: "3.9"
 
       - name: Create and start virtual environment
         run: |
-          apt-get upgrade python-virtualenv.
+          sudo apt-get upgrade python-virtualenv
           python -m venv venv
           source venv/bin/activate
 
