@@ -1,7 +1,6 @@
 import requests
 import pandas as pd
 import json
-import ast
 import yaml
 from analysis import authenticate_client, sentiment_analysis as analyse
 from analysis import authenticate_client as auth
