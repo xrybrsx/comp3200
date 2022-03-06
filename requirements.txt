@@ -7,4 +7,4 @@ pandas
 plotly.express
 dash_bootstrap_components
 azure.ai.textanalytics
-azure.core.credentials
+azure.core
