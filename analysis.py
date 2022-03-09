@@ -1,18 +1,19 @@
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.textanalytics import TextAnalyticsClient
+from numpy import negative, positive
 
-from db import get_tweets
+from database import get_tweets
 import json
-key = "dd9edb553ad6407cadfd24acd47d01a8"
-endpoint = "https://comp3200.cognitiveservices.azure.com/"
+__key = "dd9edb553ad6407cadfd24acd47d01a8"
+__endpoint = "https://comp3200.cognitiveservices.azure.com/"
 
 
 # Authenticate the client using your key and endpoint
 
 def authenticate_client():
-    ta_credential = AzureKeyCredential(key)
+    ta_credential = AzureKeyCredential(__key)
     text_analytics_client = TextAnalyticsClient(
-        endpoint=endpoint,
+        endpoint=__endpoint,
         credential=ta_credential)
     return text_analytics_client
 
@@ -140,7 +141,24 @@ def analyze(number):
     return sentiment_analysis(client, texts)
 
 
-# sentiment_analysis_with_opinion_mining_example(client)
+def get_sentiment_percentage(number):
+    pos = 0
+    neg = 0
+    neutral = 0
+    temp = analyze(number)
+    for text in temp:
+        for sent in text['sentiment']:
+            if (int(sent["positive"]) > 0.3):
+                pos = pos + 1
+            elif (int(sent['negative']) > 0.3):
+                neg = neg + 1
+            else:
+                neutral = neutral + 1
+    arr = [positive, neutral, negative]
+    return arr
+
+
+    # sentiment_analysis_with_opinion_mining_example(client)
 if __name__ == "__main__":
     # tweets = get_tweets(2)
     # print(len(tweets))

@@ -1,0 +1,826 @@
+{
+  "data": [
+    {
+      "created_at": "2022-03-08T10:19:51.000Z",
+      "id": "1501140633456496642",
+      "source": "Twitter Web App",
+      "text": "前半に例として Python の import と C# の using を書いたのを消したんですけどその名残が残っちゃいましたね",
+      "lang": "ja",
+      "public_metrics": {
+        "retweet_count": 0,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "author_id": "747028947733340160"
+    },
+    {
+      "created_at": "2022-03-08T10:19:48.000Z",
+      "id": "1501140620152393728",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 17,
+            "username": "osomhealeogho",
+            "id": "951120606749249537"
+          }
+        ],
+        "annotations": [
+          {
+            "start": 128,
+            "end": 138,
+            "probability": 0.4281,
+            "type": "Product",
+            "normalized_text": "Python inst"
+          }
+        ]
+      },
+      "source": "pythonalways",
+      "context_annotations": [
+        {
+          "domain": {
+            "id": "65",
+            "name": "Interests and Hobbies Vertical",
+            "description": "Top level interests and hobbies groupings, like Food or Travel"
+          },
+          "entity": {
+            "id": "848920371311001600",
+            "name": "Technology",
+            "description": "Technology and computing"
+          }
+        },
+        {
+          "domain": {
+            "id": "66",
+            "name": "Interests and Hobbies Category",
+            "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+          },
+          "entity": {
+            "id": "848921413196984320",
+            "name": "Computer programming",
+            "description": "Computer programming"
+          }
+        }
+      ],
+      "text": "RT @osomhealeogho: Please what's the best way to pay for my PCEP certification(Python certification entry-level programming) on Python inst…",
+      "lang": "en",
+      "public_metrics": {
+        "retweet_count": 7,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "author_id": "1497457419420459016"
+    },
+    {
+      "created_at": "2022-03-08T10:19:45.000Z",
+      "id": "1501140609520005122",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 19,
+            "username": "superb_advanced",
+            "id": "1500837695676944387"
+          }
+        ]
+      },
+      "source": "goaidev.com",
+      "text": "RT @superb_advanced: Are you stuck with homework?? Please reach me out\npay assignment\npay essay\nresearch paper..\npay history.\npay biology..…",
+      "lang": "en",
+      "public_metrics": {
+        "retweet_count": 2,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "author_id": "1437728609909706753"
+    },
+    {
+      "created_at": "2022-03-08T10:19:44.000Z",
+      "id": "1501140604721504258",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 10,
+            "username": "XoceQp",
+            "id": "2220729031"
+          },
+          {
+            "start": 32,
+            "end": 41,
+            "username": "Sheraj99",
+            "id": "268619848"
+          }
+        ],
+        "hashtags": [
+          {
+            "start": 82,
+            "end": 96,
+            "tag": "DataScientist"
+          },
+          {
+            "start": 98,
+            "end": 110,
+            "tag": "DataScience"
+          },
+          {
+            "start": 111,
+            "end": 114,
+            "tag": "ML"
+          },
+          {
+            "start": 115,
+            "end": 123,
+            "tag": "BigData"
+          },
+          {
+            "start": 124,
+            "end": 134,
+            "tag": "Analytics"
+          },
+          {
+            "start": 135,
+            "end": 138,
+            "tag": "AI"
+          }
+        ]
+      },
+      "source": "xael bot",
+      "context_annotations": [
+        {
+          "domain": {
+            "id": "65",
+            "name": "Interests and Hobbies Vertical",
+            "description": "Top level interests and hobbies groupings, like Food or Travel"
+          },
+          "entity": {
+            "id": "848920371311001600",
+            "name": "Technology",
+            "description": "Technology and computing"
+          }
+        },
+        {
+          "domain": {
+            "id": "30",
+            "name": "Entities [Entity Service]",
+            "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+          },
+          "entity": {
+            "id": "898262889378619392",
+            "name": "Artificial intelligence",
+            "description": "Artificial Intelligence"
+          }
+        },
+        {
+          "domain": {
+            "id": "30",
+            "name": "Entities [Entity Service]",
+            "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+          },
+          "entity": {
+            "id": "930484568305541120",
+            "name": "Data science",
+            "description": "Data Science"
+          }
+        },
+        {
+          "domain": {
+            "id": "30",
+            "name": "Entities [Entity Service]",
+            "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+          },
+          "entity": {
+            "id": "1118167720866930689",
+            "name": "Big Data"
+          }
+        }
+      ],
+      "text": "RT @XoceQp: CoDailychalleng: RT @Sheraj99: Best of Windows Privileges Cheat Sheet #DataScientist \n#DataScience #ML #BigData #Analytics #AI…",
+      "lang": "en",
+      "public_metrics": {
+        "retweet_count": 8,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "author_id": "1127829883013361665"
+    },
+    {
+      "created_at": "2022-03-08T10:19:43.000Z",
+      "id": "1501140601810702338",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 10,
+            "username": "XoceQp",
+            "id": "2220729031"
+          },
+          {
+            "start": 32,
+            "end": 41,
+            "username": "Sheraj99",
+            "id": "268619848"
+          }
+        ],
+        "hashtags": [
+          {
+            "start": 82,
+            "end": 96,
+            "tag": "DataScientist"
+          },
+          {
+            "start": 98,
+            "end": 110,
+            "tag": "DataScience"
+          },
+          {
+            "start": 111,
+            "end": 114,
+            "tag": "ML"
+          },
+          {
+            "start": 115,
+            "end": 123,
+            "tag": "BigData"
+          },
+          {
+            "start": 124,
+            "end": 134,
+            "tag": "Analytics"
+          },
+          {
+            "start": 135,
+            "end": 138,
+            "tag": "AI"
+          }
+        ]
+      },
+      "source": "javascriptdigest2",
+      "context_annotations": [
+        {
+          "domain": {
+            "id": "65",
+            "name": "Interests and Hobbies Vertical",
+            "description": "Top level interests and hobbies groupings, like Food or Travel"
+          },
+          "entity": {
+            "id": "848920371311001600",
+            "name": "Technology",
+            "description": "Technology and computing"
+          }
+        },
+        {
+          "domain": {
+            "id": "30",
+            "name": "Entities [Entity Service]",
+            "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+          },
+          "entity": {
+            "id": "898262889378619392",
+            "name": "Artificial intelligence",
+            "description": "Artificial Intelligence"
+          }
+        },
+        {
+          "domain": {
+            "id": "30",
+            "name": "Entities [Entity Service]",
+            "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+          },
+          "entity": {
+            "id": "930484568305541120",
+            "name": "Data science",
+            "description": "Data Science"
+          }
+        },
+        {
+          "domain": {
+            "id": "30",
+            "name": "Entities [Entity Service]",
+            "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+          },
+          "entity": {
+            "id": "1118167720866930689",
+            "name": "Big Data"
+          }
+        }
+      ],
+      "text": "RT @XoceQp: CoDailychalleng: RT @Sheraj99: Best of Windows Privileges Cheat Sheet #DataScientist \n#DataScience #ML #BigData #Analytics #AI…",
+      "lang": "en",
+      "public_metrics": {
+        "retweet_count": 8,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "author_id": "2704581690"
+    },
+    {
+      "created_at": "2022-03-08T10:19:43.000Z",
+      "id": "1501140601475059717",
+      "entities": {
+        "urls": [
+          {
+            "start": 34,
+            "end": 57,
+            "url": "https://t.co/axMZNvVM0w",
+            "expanded_url": "https://python.plainenglish.io/tensorflow-on-windows-simplified-d9eb6bc7c54b",
+            "display_url": "python.plainenglish.io/tensorflow-on-…",
+            "images": [
+              {
+                "url": "https://pbs.twimg.com/news_img/1500846408307552265/Y2lY-pTd?format=jpg&name=orig",
+                "width": 1200,
+                "height": 675
+              },
+              {
+                "url": "https://pbs.twimg.com/news_img/1500846408307552265/Y2lY-pTd?format=jpg&name=150x150",
+                "width": 150,
+                "height": 150
+              }
+            ],
+            "status": 200,
+            "title": "TensorFlow on Windows Simplified!",
+            "description": "Using Anaconda (Python package management) for simplifying our lives!",
+            "unwound_url": "https://python.plainenglish.io/tensorflow-on-windows-simplified-d9eb6bc7c54b"
+          }
+        ],
+        "hashtags": [
+          {
+            "start": 59,
+            "end": 70,
+            "tag": "Tensorflow"
+          }
+        ],
+        "annotations": [
+          {
+            "start": 14,
+            "end": 31,
+            "probability": 0.4512,
+            "type": "Product",
+            "normalized_text": "Windows Simplified"
+          }
+        ]
+      },
+      "source": "Postmatico",
+      "text": "TensorFlow on Windows Simplified! https://t.co/axMZNvVM0w  #Tensorflow",
+      "lang": "en",
+      "public_metrics": {
+        "retweet_count": 1,
+        "reply_count": 0,
+        "like_count": 1,
+        "quote_count": 0
+      },
+      "author_id": "4820804277"
+    },
+    {
+      "created_at": "2022-03-08T10:19:40.000Z",
+      "id": "1501140586195079169",
+      "entities": {
+        "urls": [
+          {
+            "start": 76,
+            "end": 99,
+            "url": "https://t.co/h5b9g8KX1Z",
+            "expanded_url": "https://hubs.la/Q015thPZ0",
+            "display_url": "hubs.la/Q015thPZ0",
+            "images": [
+              {
+                "url": "https://pbs.twimg.com/news_img/1499567822011305985/izn-wB73?format=jpg&name=orig",
+                "width": 1200,
+                "height": 770
+              },
+              {
+                "url": "https://pbs.twimg.com/news_img/1499567822011305985/izn-wB73?format=jpg&name=150x150",
+                "width": 150,
+                "height": 150
+              }
+            ],
+            "status": 200,
+            "title": "TOP 10 PYTHON LIBRARIES DATA SCIENTISTS SHOULD KNOW IN 2022",
+            "description": "Python, once known as a nerdy, niche programming language, is now one of the most popular programming languages in use. It’s easy to see…",
+            "unwound_url": "https://medium.com/@nullclasssocial/top-10-python-libraries-data-scientists-should-know-in-2022-c7c0f79f30a4"
+          },
+          {
+            "start": 100,
+            "end": 123,
+            "url": "https://t.co/THjdyCNLQU",
+            "expanded_url": "https://twitter.com/DataScienceDojo/status/1501022391673233414/photo/1",
+            "display_url": "pic.twitter.com/THjdyCNLQU"
+          }
+        ],
+        "mentions": [
+          {
+            "start": 3,
+            "end": 19,
+            "username": "DataScienceDojo",
+            "id": "1318985240"
+          }
+        ],
+        "hashtags": [
+          {
+            "start": 21,
+            "end": 28,
+            "tag": "Python"
+          },
+          {
+            "start": 39,
+            "end": 54,
+            "tag": "DataScientists"
+          }
+        ]
+      },
+      "source": "Twitter for iPhone",
+      "context_annotations": [
+        {
+          "domain": {
+            "id": "65",
+            "name": "Interests and Hobbies Vertical",
+            "description": "Top level interests and hobbies groupings, like Food or Travel"
+          },
+          "entity": {
+            "id": "848920371311001600",
+            "name": "Technology",
+            "description": "Technology and computing"
+          }
+        },
+        {
+          "domain": {
+            "id": "66",
+            "name": "Interests and Hobbies Category",
+            "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+          },
+          "entity": {
+            "id": "848921413196984320",
+            "name": "Computer programming",
+            "description": "Computer programming"
+          }
+        },
+        {
+          "domain": {
+            "id": "30",
+            "name": "Entities [Entity Service]",
+            "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+          },
+          "entity": {
+            "id": "930484568305541120",
+            "name": "Data science",
+            "description": "Data Science"
+          }
+        }
+      ],
+      "text": "RT @DataScienceDojo: #Python Libraries #DataScientists Should Know In 2022.\nhttps://t.co/h5b9g8KX1Z https://t.co/THjdyCNLQU",
+      "lang": "en",
+      "public_metrics": {
+        "retweet_count": 30,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "author_id": "809605397774372864"
+    },
+    {
+      "created_at": "2022-03-08T10:19:39.000Z",
+      "id": "1501140585029279747",
+      "entities": {
+        "mentions": [
+          {
+            "start": 238,
+            "end": 254,
+            "username": "superb_advanced",
+            "id": "1500837695676944387"
+          }
+        ],
+        "hashtags": [
+          {
+            "start": 210,
+            "end": 221,
+            "tag": "javascript"
+          },
+          {
+            "start": 222,
+            "end": 229,
+            "tag": "python"
+          }
+        ]
+      },
+      "source": "Twitter for Android",
+      "context_annotations": [
+        {
+          "domain": {
+            "id": "65",
+            "name": "Interests and Hobbies Vertical",
+            "description": "Top level interests and hobbies groupings, like Food or Travel"
+          },
+          "entity": {
+            "id": "848920371311001600",
+            "name": "Technology",
+            "description": "Technology and computing"
+          }
+        },
+        {
+          "domain": {
+            "id": "66",
+            "name": "Interests and Hobbies Category",
+            "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+          },
+          "entity": {
+            "id": "848921413196984320",
+            "name": "Computer programming",
+            "description": "Computer programming"
+          }
+        },
+        {
+          "domain": {
+            "id": "66",
+            "name": "Interests and Hobbies Category",
+            "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+          },
+          "entity": {
+            "id": "898673391980261376",
+            "name": "Web development",
+            "description": "Web Development"
+          }
+        },
+        {
+          "domain": {
+            "id": "30",
+            "name": "Entities [Entity Service]",
+            "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+          },
+          "entity": {
+            "id": "930484568305541120",
+            "name": "Data science",
+            "description": "Data Science"
+          }
+        },
+        {
+          "domain": {
+            "id": "30",
+            "name": "Entities [Entity Service]",
+            "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+          },
+          "entity": {
+            "id": "1237095288671596545",
+            "name": "Mathematics"
+          }
+        },
+        {
+          "domain": {
+            "id": "65",
+            "name": "Interests and Hobbies Vertical",
+            "description": "Top level interests and hobbies groupings, like Food or Travel"
+          },
+          "entity": {
+            "id": "848920371311001600",
+            "name": "Technology",
+            "description": "Technology and computing"
+          }
+        },
+        {
+          "domain": {
+            "id": "66",
+            "name": "Interests and Hobbies Category",
+            "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+          },
+          "entity": {
+            "id": "898659750950207489",
+            "name": "JavaScript",
+            "description": "JavaScript"
+          }
+        }
+      ],
+      "text": "Are you stuck with homework?? Please reach me out\npay assignment\npay essay\nresearch paper..\npay history.\npay biology...\ndo project\ndo chemistry..\nsomeone write\nessay pay\nMathematics\npay term paper\nhomework due\n#javascript\n#python \nDm now @superb_advanced",
+      "lang": "en",
+      "public_metrics": {
+        "retweet_count": 2,
+        "reply_count": 0,
+        "like_count": 2,
+        "quote_count": 0
+      },
+      "author_id": "1500837695676944387"
+    },
+    {
+      "created_at": "2022-03-08T10:19:39.000Z",
+      "id": "1501140581074014212",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 19,
+            "username": "superb_advanced",
+            "id": "1500837695676944387"
+          }
+        ],
+        "hashtags": [
+          {
+            "start": 21,
+            "end": 29,
+            "tag": "Wyoming"
+          },
+          {
+            "start": 68,
+            "end": 72,
+            "tag": "cod"
+          },
+          {
+            "start": 75,
+            "end": 85,
+            "tag": "CoDMobile"
+          },
+          {
+            "start": 87,
+            "end": 93,
+            "tag": "Essay"
+          },
+          {
+            "start": 98,
+            "end": 102,
+            "tag": "Pay"
+          },
+          {
+            "start": 109,
+            "end": 120,
+            "tag": "javascript"
+          },
+          {
+            "start": 121,
+            "end": 128,
+            "tag": "Online"
+          }
+        ]
+      },
+      "source": "BotForDev",
+      "context_annotations": [
+        {
+          "domain": {
+            "id": "65",
+            "name": "Interests and Hobbies Vertical",
+            "description": "Top level interests and hobbies groupings, like Food or Travel"
+          },
+          "entity": {
+            "id": "848920371311001600",
+            "name": "Technology",
+            "description": "Technology and computing"
+          }
+        },
+        {
+          "domain": {
+            "id": "66",
+            "name": "Interests and Hobbies Category",
+            "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+          },
+          "entity": {
+            "id": "848921413196984320",
+            "name": "Computer programming",
+            "description": "Computer programming"
+          }
+        },
+        {
+          "domain": {
+            "id": "66",
+            "name": "Interests and Hobbies Category",
+            "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+          },
+          "entity": {
+            "id": "898673391980261376",
+            "name": "Web development",
+            "description": "Web Development"
+          }
+        },
+        {
+          "domain": {
+            "id": "71",
+            "name": "Video Game",
+            "description": "A video game like Overwatch"
+          },
+          "entity": {
+            "id": "10027933222",
+            "name": "Call of Duty",
+            "description": "This entity includes all conversation about the franchise, as well as any individual installments in the series, if applicable.\t\t\t"
+          }
+        },
+        {
+          "domain": {
+            "id": "65",
+            "name": "Interests and Hobbies Vertical",
+            "description": "Top level interests and hobbies groupings, like Food or Travel"
+          },
+          "entity": {
+            "id": "848920371311001600",
+            "name": "Technology",
+            "description": "Technology and computing"
+          }
+        },
+        {
+          "domain": {
+            "id": "66",
+            "name": "Interests and Hobbies Category",
+            "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+          },
+          "entity": {
+            "id": "898659750950207489",
+            "name": "JavaScript",
+            "description": "JavaScript"
+          }
+        }
+      ],
+      "text": "RT @superb_advanced: #Wyoming \nGrade A+ assured in any timed paper;\n#cod  \n#CoDMobile \n#Essay due\n#Pay write\n#javascript\n#Online class.\n#Ph…",
+      "lang": "en",
+      "public_metrics": {
+        "retweet_count": 2,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "author_id": "1403020350871400451"
+    },
+    {
+      "created_at": "2022-03-08T10:19:37.000Z",
+      "id": "1501140572811190278",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 19,
+            "username": "ASSIGNMENTSHE17",
+            "id": "1400694407498809348"
+          }
+        ]
+      },
+      "source": "pythonalways",
+      "text": "RT @ASSIGNMENTSHE17: for quality assignment help dm\nEssays\nExams\nHomework\nBiology\nChemistry\nMath\nEnglish\nFull classes\nBiology,\nAnatomy\n#Mac…",
+      "lang": "en",
+      "public_metrics": {
+        "retweet_count": 17,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "author_id": "1497457419420459016"
+    }
+  ],
+  "includes": {
+    "users": [
+      {
+        "username": "Sankyuri",
+        "id": "747028947733340160",
+        "location": "カンピヨボーイズ！｜ﾌﾟﾚｪﾘﾁｪﾝ vs ｳﾝｽｶ",
+        "name": "サンキューリにしては精神が不安定すぎるのよね"
+      },
+      {
+        "username": "pythonalways",
+        "id": "1497457419420459016",
+        "name": "Python Always"
+      },
+      {
+        "username": "GoaiDev",
+        "id": "1437728609909706753",
+        "location": "India",
+        "name": "Developer Bot 🤖"
+      },
+      {
+        "username": "xaelbot",
+        "id": "1127829883013361665",
+        "location": "Earth",
+        "name": "xael bot"
+      },
+      {
+        "username": "javascriptd",
+        "id": "2704581690",
+        "location": "Everywhere ",
+        "name": "Javascript Digest"
+      },
+      {
+        "username": "machinelearnflx",
+        "id": "4820804277",
+        "name": "Machine Learning"
+      },
+      {
+        "username": "_pkchowdhury",
+        "id": "809605397774372864",
+        "name": "Pallab Chowdhury"
+      },
+      {
+        "username": "superb_advanced",
+        "id": "1500837695676944387",
+        "location": "California, USA",
+        "name": "ADVANCED 💯SUPERB WRITERS✍️✍️"
+      },
+      {
+        "username": "botfordev",
+        "id": "1403020350871400451",
+        "name": "Lunr"
+      }
+    ]
+  },
+  "meta": {
+    "newest_id": "1501140633456496642",
+    "oldest_id": "1501140572811190278",
+    "result_count": 10,
+    "next_token": "b26v89c19zqg8o3fpyqlnu0gb0ref6djxdpijb5heyd19"
+  }
+}
