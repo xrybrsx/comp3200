@@ -1,6 +1,8 @@
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.textanalytics import TextAnalyticsClient
+from matplotlib.font_manager import json_load
 from numpy import negative, positive
+import pandas as pd
 
 from database import get_tweets
 import json
@@ -130,6 +132,8 @@ def sentiment_analysis(client, documents):
 
 # print("\n")
 
+# analyze the text of n tweets from the database
+
 
 def analyze(number):
     tweets = get_tweets(number)
@@ -146,20 +150,34 @@ def get_sentiment_percentage(number):
     neg = 0
     neutral = 0
     temp = analyze(number)
-    for text in temp:
-        for sent in text['sentiment']:
-            if (int(sent["positive"]) > 0.3):
-                pos = pos + 1
-            elif (int(sent['negative']) > 0.3):
-                neg = neg + 1
-            else:
-                neutral = neutral + 1
-    arr = [positive, neutral, negative]
+    # [{'text': '前半に例として Python の import と C# の using を書いたのを消したんですけどその名残が残っ
+    # ちゃいましたね', 'sentiment': {'positive': 0.09, 'neutral': 0.75, 'negative': 0.16}},
+    # {'text':...
+    # print(temp)
+    for pair in temp:
+        pair = pair['sentiment']
+        # print(pair)
+        # print((pair['positive']))
+
+        pos = pos + pair['positive']
+       # print(pos)
+
+        neg = neg + pair['negative']
+        # print(neg)
+
+        neutral = neutral + pair['neutral']
+        # print("neutral")
+    pos = pos/number
+    neg = neg/number
+    neutral = neutral/number
+    arr = {"positive": pos, "neutral": neutral, "negative": neg}
     return arr
 
 
     # sentiment_analysis_with_opinion_mining_example(client)
 if __name__ == "__main__":
+    df = pd.json_normalize(get_sentiment_percentage(10))
+
     # tweets = get_tweets(2)
     # print(len(tweets))
     # texts = []
@@ -170,4 +188,3 @@ if __name__ == "__main__":
     # client = authenticate_client()
     # docs = ["I love this!", "I hate this!"]
     # sentiment_analysis(client, texts)
-    print(analyze(3))

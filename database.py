@@ -10,12 +10,16 @@ def connectToClient():
     client = CosmosClient(__ACCOUNT_URI, credential=__ACCOUNT_KEY)
     return client
 
+# connect to container in database
+
 
 def connectToContainer(database_name, container_name):
     client = connectToClient()
     database = client.get_database_client(database_name)
     container = database.get_container_client(container_name)
     return container
+
+# put fetched tweets into database table "tweets"
 
 
 def store_tweets(data):
@@ -41,6 +45,8 @@ def store_tweets(data):
 
     return container
 
+# put fetched users into database table "users"
+
 
 def store_users(data):
     container = connectToContainer('tweets', 'users')
@@ -57,6 +63,8 @@ def store_users(data):
             container.upsert_item(item)
 
     return container
+
+# get n tweets from db
 
 
 def get_tweets(n):
@@ -75,7 +83,7 @@ if __name__ == "__main__":
     with open('twitter_api_example.json') as json_file:
         data = json.load(json_file)
     # store_tweets(data)
-    store_users(data)
+    print(get_tweets(10))
     # for i in data['data']:
     #     print(i['text'])
     #     print(i['id'])

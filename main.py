@@ -1,3 +1,4 @@
+from unicodedata import name
 from xml.etree.ElementInclude import LimitedRecursiveIncludeError
 from flask import Flask
 import dash
@@ -12,7 +13,7 @@ import requests
 from analysis import sentiment_analysis, authenticate_client, analyze, get_sentiment_percentage
 import twitter_api as twitter
 from dash.dependencies import Input, Output
-from database import store, get_tweets
+from database import store_tweets, get_tweets
 
 
 # my_dboard.get_preview()
@@ -87,15 +88,18 @@ def generate_count_graph(search_keyword):
 def generate_sentiment_graph(keyword):
     # tweets = twitter.search_hashtag_url(keyword, 10)
     # store(tweets)
+    #
     sentiment_score = analyze(10)
     #df = pd.DataFrame(sentiment_score)
     df = pd.json_normalize(sentiment_score)
     local_storage = df
+    df["sentiment"] = df["sentiment.positive"] - df["sentiment.negative"]
     #final = df[['text', 'sentiment']]
     print(df)
-
-    fig = px.scatter(df, x="sentiment.positive",
-                     y="sentiment.negative")
+    fig = px.bar(df, x=df.index, y='sentiment', hover_data=[
+                 'text'], labels={'index': 'tweet'},)
+   # fig = px.scatter(df, x="sentiment.positive",
+    # y="sentiment.negative")
 
     fig.update_layout(
 
@@ -112,12 +116,16 @@ def generate_sentiment_graph(keyword):
 
 )
 def generate_pie(keyword):
-    df = get_sentiment_percentage(10)
-    names = ["positive", 'neutral', 'negative']
-    fig = px.pie(df, values=df, names=names,
-                 title='Percentage of Sentiment', color_discrete_sequence=px.colors.sequential.RdBu)
+    df = pd.json_normalize(get_sentiment_percentage(10))
+    print(df)
+    print(df.values)
+    names = ['negative', 'neutral', "positive"]
+    fig = px.pie(df, values=df.values[0], names=df.columns,
+                 title='Percentage of Sentiment', color_discrete_sequence=px.colors.sequential.Blues)
+
     return fig
 
 
 if __name__ == "__main__":
     app.run_server(debug=True)
+    # generate_pie("python")
