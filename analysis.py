@@ -140,6 +140,7 @@ def analyze(number):
     texts = []
     for tw in tweets:
         texts.append(tw["text"])
+
     client = authenticate_client()
 
     return sentiment_analysis(client, texts)
@@ -173,18 +174,17 @@ def get_sentiment_percentage(number):
     arr = {"positive": pos, "neutral": neutral, "negative": neg}
     return arr
 
-
     # sentiment_analysis_with_opinion_mining_example(client)
-if __name__ == "__main__":
-    df = pd.json_normalize(get_sentiment_percentage(10))
+# if __name__ == "__main__":
+#     df = pd.json_normalize(get_sentiment_percentage(10))
 
-    # tweets = get_tweets(2)
-    # print(len(tweets))
-    # texts = []
-    # for tw in tweets:
-    #     texts.append(tw["text"])
+#     # tweets = get_tweets(2)
+#     # print(len(tweets))
+#     # texts = []
+#     # for tw in tweets:
+#     #     texts.append(tw["text"])
 
-    # print(texts)
-    # client = authenticate_client()
-    # docs = ["I love this!", "I hate this!"]
-    # sentiment_analysis(client, texts)
+#     # print(texts)
+#     # client = authenticate_client()
+#     # docs = ["I love this!", "I hate this!"]
+#     # sentiment_analysis(client, texts)

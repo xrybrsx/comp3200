@@ -14,6 +14,7 @@ from analysis import sentiment_analysis, authenticate_client, analyze, get_senti
 import twitter_api as twitter
 from dash.dependencies import Input, Output
 from database import store_tweets, get_tweets
+import plotly.graph_objects as go
 
 
 # my_dboard.get_preview()
@@ -47,6 +48,7 @@ app.layout = html.Div(
         dcc.Graph(id="count"),
         dcc.Graph(id="sentiment"),
         dcc.Graph(id="pie-chart"),
+        dcc.Graph(id="sunburst_chart"),
     ],
 )
 
@@ -97,7 +99,7 @@ def generate_sentiment_graph(keyword):
     #final = df[['text', 'sentiment']]
     print(df)
     fig = px.bar(df, x=df.index, y='sentiment', hover_data=[
-                 'text'], labels={'index': 'tweet'},)
+                 'text'], labels={'index': '#'}, color="sentiment", color_continuous_scale=px.colors.sequential.RdBu)
    # fig = px.scatter(df, x="sentiment.positive",
     # y="sentiment.negative")
 
@@ -122,6 +124,55 @@ def generate_pie(keyword):
     names = ['negative', 'neutral', "positive"]
     fig = px.pie(df, values=df.values[0], names=df.columns,
                  title='Percentage of Sentiment', color_discrete_sequence=px.colors.sequential.Blues)
+
+    return fig
+
+
+@app.callback(
+    Output(component_id="sunburst_chart", component_property="figure"),
+    Input(component_id="search_keyword", component_property="value"),
+
+)
+def generate_sunburst(keyword):
+    context = {}
+    context["domain"] = []
+    context["entity"] = []
+    df = pd.json_normalize(get_tweets(10))
+    for i in df['context']:
+        if isinstance(i, list):
+            # print(i)
+            for j in i:
+                # print(j['domain'])
+                context["domain"].append(j['domain']['name'])
+                # print(j['entity'])
+                context["entity"].append(j['entity']['name'])
+
+    data = pd.DataFrame(context)
+    # data["domain_name"] = []
+    # data["entity_name"] = []
+    # for i in data.domain:
+    #     data["domain_name"].append(i)
+    # for i in data.entity:
+    #     data["entity_name"].append(i)
+    print(data)
+    print(data.size)
+    # fig = go.Figure()
+    # fig.add_trace(go.Sunburst(
+    #     ids=data.index,
+    #     labels=data.entity,
+    #     parents=data.domain,
+    #     domain=dict(column=0),
+    #     maxdepth=2,
+    #     insidetextorientation='radial'
+    # ))
+    # fig.show()
+    fig = px.sunburst(
+        data, path=['domain', 'entity'], values=[1]*len(data), labels={"value": "number"})
+    fig.update_traces(insidetextorientation='radial')
+    fig.update_layout(margin=dict(t=0, l=0, r=0, b=0),
+                      plot_bgcolor=colors["background"],
+                      paper_bgcolor=colors["background"],
+                      font_color=colors["text"])
 
     return fig
 

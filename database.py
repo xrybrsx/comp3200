@@ -1,6 +1,9 @@
+from math import isnan, nan
 from html import entities
 from typing import Container
 from azure.cosmos import CosmosClient
+from numpy import NaN
+import pandas as pd
 import json
 __ACCOUNT_URI = 'https://comp3200.documents.azure.com:443/'
 __ACCOUNT_KEY = 'XdUzJzsysfc7KQAkEKMpXSLqS5tHu2n8dyqC2MtNLpUqRhLDRH5LoVdG6LD3X7yqmKbHURUQDjwRTvZZrz4ynw=='
@@ -79,20 +82,34 @@ def get_tweets(n):
     return items
 
 
-if __name__ == "__main__":
-    with open('twitter_api_example.json') as json_file:
-        data = json.load(json_file)
-    # store_tweets(data)
-    print(get_tweets(10))
-    # for i in data['data']:
-    #     print(i['text'])
-    #     print(i['id'])
-    #     print(i['lang'])
-    #     print(i['source'])
-    #     print(i['author_id'])
-    # for i in data['data']:
-    #     if 'entities' in i:
-    #         if 'hashtags' in i['entities']:
-    #             print(i['entities']['hashtags'])
-    #     if 'context_annotations' in i:
-    #         print(i['context_annotations'])
+# if __name__ == "__main__":
+#     # with open('twitter_api_example.json') as json_file:
+#     #     data = json.load(json_file)
+#     # # store_tweets(data)
+#     context = {}
+#     context["domain"] = []
+#     context["entity"] = []
+#     df = pd.json_normalize(get_tweets(10))
+#     for i in df['context']:
+#         if isinstance(i, list):
+#             # print(i)
+#             for j in i:
+#                 # print(j['domain'])
+#                 context["domain"].append(j['domain'])
+#                 # print(j['entity'])
+#                 context["entity"].append(j['entity'])
+#             # context = pd.json_normalize(df['context'])
+#     print(context)
+#     # print(df['context']['enitity'])
+#     # for i in data['data']:
+#     #     print(i['text'])
+#     #     print(i['id'])
+#     #     print(i['lang'])
+#     #     print(i['source'])
+#     #     print(i['author_id'])
+#     # for i in data['data']:
+#     #     if 'entities' in i:
+#     #         if 'hashtags' in i['entities']:
+#     #             print(i['entities']['hashtags'])
+#     #     if 'context_annotations' in i:
+#     #         print(i['context_annotations'])
