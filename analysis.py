@@ -1,6 +1,6 @@
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.textanalytics import TextAnalyticsClient
-from matplotlib.font_manager import json_load
+
 from numpy import negative, positive
 import pandas as pd
 

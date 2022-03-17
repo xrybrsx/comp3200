@@ -8,4 +8,5 @@ plotly.express
 dash_bootstrap_components
 azure.ai.textanalytics
 azure.core
+pyyaml
 itsdangerous==2.0.1

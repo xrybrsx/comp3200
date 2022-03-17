@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
-import json
-import yaml
+
+# import yaml
 
 
 def tweets_full_info_url(keyword, n):
@@ -83,15 +83,15 @@ def get_tweet_url(id):
 # get my twitter API credentials from a separate file
 
 
-def process_yaml():
-    with open("config.yaml") as file:
-        return yaml.safe_load(file)
+# def process_yaml():
+#     with open("config.yaml") as file:
+#         return yaml.safe_load(file)
 
-# get bearer token for API permissions
+# # get bearer token for API permissions
 
 
-def create_bearer_token(data):
-    return data["search_tweets_api"]["bearer_token"]
+# def create_bearer_token(data):
+#     return data["search_tweets_api"]["bearer_token"]
 
 
 def twitter_auth_and_connect(bearer_token, url):
