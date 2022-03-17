@@ -1,10 +1,7 @@
-from math import isnan, nan
-from html import entities
-from typing import Container
+
 from azure.cosmos import CosmosClient
-from numpy import NaN
-import pandas as pd
-import json
+
+
 __ACCOUNT_URI = 'https://comp3200.documents.azure.com:443/'
 __ACCOUNT_KEY = 'XdUzJzsysfc7KQAkEKMpXSLqS5tHu2n8dyqC2MtNLpUqRhLDRH5LoVdG6LD3X7yqmKbHURUQDjwRTvZZrz4ynw=='
 
