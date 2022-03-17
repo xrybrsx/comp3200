@@ -1,7 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/102ef8e8-9fe5-41e6-8ddf-7ad4ecce7b19/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/comp3200",
-    "appService.deploySubpath": ".",
-    "yaml.schemas": {
-        "https://json.schemastore.org/github-workflow.json": "file:///Users/xrybrsx/Documents/comp3200/.github/workflows/master_comp3200.yml"
-    }
-}

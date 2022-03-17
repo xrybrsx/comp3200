@@ -31,19 +31,83 @@ colors = {"background": "#FFFFFF", "text": "#1DA1F2"}
 
 
 app.layout = html.Div(
-    style={"backgroundColor": colors["background"]},
+    # style={"backgroundColor": colors["background"]},
     children=[
         html.Div([
             "Search: ",
-            dcc.Input(id='search_keyword', value='python', type='text')
+            dbc.Input(id='search_keyword', value='python',
+                      type='text', className=".col-md-8")
         ]),
+
+        html.Div(
+            [
+                dbc.Row([
+
+                    dbc.Col(html.Div(
+                        [
+                            html.P("No. of Tweets"),
+                            html.H6(
+                                id="number_of_tweets",
+                                className="info_text"
+                            )
+                        ])),
+
+                    dbc.Col(html.Div(
+                        [
+                            html.P("No. of Users"),
+                            html.H6(
+                                id="gasText",
+                                className="info_text"
+                            )
+                        ],
+                        id="gas",
+                        className="pretty_container"
+                    )),
+                    dbc.Col(html.Div(
+                        [
+                            html.P("Oil"),
+                            html.H6(
+                                id="oilText",
+                                className="info_text"
+                            )
+                        ],
+                        id="oil",
+                        className="pretty_container"
+                    )),
+                    dbc.Col(html.Div(
+                        [
+                            html.P("Water"),
+                            html.H6(
+                                id="waterText",
+                                className="info_text"
+                            )
+                        ],
+                        id="water",
+                        className="pretty_container"
+                    )),
+                ])
+
+            ],
+            id="infoContainer",
+            className="row"
+        ),
+        html.Div(
+            [
+                dcc.Graph(
+                    id='count_graph',
+                )
+            ],
+            id="rightCol",
+            className="row"
+        ),
+
         html.H1(
-            children="Tweets",
-            style={"textAlign": "center", "color": colors["text"]},
+            children="Tweets", className="text-center"
+            # style={"textAlign": "center", "color": colors["text"]},
         ),
         html.Div(
             children="text",
-            style={"textAlign": "center", "color": colors["text"]},
+            # style={"textAlign": "center", "color": colors["text"]},
         ),
         dcc.Graph(id="count"),
         dcc.Graph(id="sentiment"),
@@ -53,7 +117,7 @@ app.layout = html.Div(
 )
 
 
-@app.callback(
+@ app.callback(
     Output(component_id="count", component_property="figure"),
     Input(component_id="search_keyword", component_property="value"),
 
@@ -74,15 +138,15 @@ def generate_count_graph(search_keyword):
     print(final)
     fig = px.line(final, x="start", y="tweet_count")
 
-    fig.update_layout(
-        plot_bgcolor=colors["background"],
-        paper_bgcolor=colors["background"],
-        font_color=colors["text"],
-    )
+    # fig.update_layout(
+    #     plot_bgcolor=colors["background"],
+    #     paper_bgcolor=colors["background"],
+    #     font_color=colors["text"],
+    # )
     return fig
 
 
-@app.callback(
+@ app.callback(
     Output(component_id="sentiment", component_property="figure"),
     Input(component_id="search_keyword", component_property="value"),
 
@@ -92,27 +156,27 @@ def generate_sentiment_graph(keyword):
     # store(tweets)
     #
     sentiment_score = analyze(10)
-    #df = pd.DataFrame(sentiment_score)
+    # df = pd.DataFrame(sentiment_score)
     df = pd.json_normalize(sentiment_score)
     local_storage = df
     df["sentiment"] = df["sentiment.positive"] - df["sentiment.negative"]
-    #final = df[['text', 'sentiment']]
+    # final = df[['text', 'sentiment']]
     print(df)
     fig = px.bar(df, x=df.index, y='sentiment', hover_data=[
-                 'text'], labels={'index': '#'}, color="sentiment", color_continuous_scale=px.colors.sequential.RdBu)
+        'text'], labels={'index': '#'}, color="sentiment", color_continuous_scale=px.colors.sequential.RdBu)
    # fig = px.scatter(df, x="sentiment.positive",
     # y="sentiment.negative")
 
-    fig.update_layout(
+    # fig.update_layout(
 
-        plot_bgcolor=colors["background"],
-        paper_bgcolor=colors["background"],
-        font_color=colors["text"],
-    )
+    #     plot_bgcolor=colors["background"],
+    #     paper_bgcolor=colors["background"],
+    #     font_color=colors["text"],
+    # )
     return fig
 
 
-@app.callback(
+@ app.callback(
     Output(component_id="pie-chart", component_property="figure"),
     Input(component_id="search_keyword", component_property="value"),
 
@@ -128,7 +192,7 @@ def generate_pie(keyword):
     return fig
 
 
-@app.callback(
+@ app.callback(
     Output(component_id="sunburst_chart", component_property="figure"),
     Input(component_id="search_keyword", component_property="value"),
 
@@ -169,10 +233,10 @@ def generate_sunburst(keyword):
     fig = px.sunburst(
         data, path=['domain', 'entity'], values=[1]*len(data), labels={"value": "number"})
     fig.update_traces(insidetextorientation='radial')
-    fig.update_layout(margin=dict(t=0, l=0, r=0, b=0),
-                      plot_bgcolor=colors["background"],
-                      paper_bgcolor=colors["background"],
-                      font_color=colors["text"])
+    fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
+    #   plot_bgcolor=colors["background"],
+    #   paper_bgcolor=colors["background"],
+    #   font_color=colors["text"])
 
     return fig
 
