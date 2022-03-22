@@ -1,9 +1,12 @@
 
 from azure.cosmos import CosmosClient
 
+from twitter_api import search_keyword_url, tweets_full_info_url, twitter_auth_and_connect
+
 
 __ACCOUNT_URI = 'https://comp3200.documents.azure.com:443/'
 __ACCOUNT_KEY = 'XdUzJzsysfc7KQAkEKMpXSLqS5tHu2n8dyqC2MtNLpUqRhLDRH5LoVdG6LD3X7yqmKbHURUQDjwRTvZZrz4ynw=='
+bearer_token = 'AAAAAAAAAAAAAAAAAAAAACJWYQEAAAAAJ8L97yf%2FLbDoTTQLW77TcQLT8HQ%3D7GqMszwYUwK8lx8GFuhROYpIym8AyWQB0t6e7pEBeSbBBjTgny'
 
 
 def connectToClient():
@@ -53,7 +56,7 @@ def store_users(data):
     data = data['includes']
     for i in data['users']:
         item = container.upsert_item({
-            "user": i['id'],
+            "id": i['id'],
             "username": i['username'],
             "name": i['name'],
         })
@@ -77,9 +80,26 @@ def get_tweets(n):
         enable_cross_partition_query=True
     ))
     return items
+def get_users(n):
+    container = connectToContainer('tweets', 'users')
+    # item_list = list(container.read_all_items(max_item_count=10))
+    query = "SELECT TOP {} * FROM users".format(n)
+
+    items = list(container.query_items(
+        query=query,
+        enable_cross_partition_query=True
+    ))
+    return items
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    print(get_users(100))
+    url = tweets_full_info_url("python", 100)
+    data = twitter_auth_and_connect(bearer_token, url)
+    print(data)
+    store_users(data)
+    store_tweets(data)
+#     print(get_tweets(100))
 #     # with open('twitter_api_example.json') as json_file:
 #     #     data = json.load(json_file)
 #     # # store_tweets(data)

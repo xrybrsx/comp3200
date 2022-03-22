@@ -1,3 +1,6 @@
+from email.policy import strict
+from math import nan
+import math
 from unicodedata import name
 from xml.etree.ElementInclude import LimitedRecursiveIncludeError
 from flask import Flask
@@ -5,14 +8,15 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import dcc
 from dash import html
+from numpy import NaN
 import plotly.express as px
 import os
 import pandas as pd
 import requests
 from analysis import sentiment_analysis, authenticate_client, analyze, get_sentiment_percentage
 import twitter_api as twitter
-from dash.dependencies import Input, Output
-from database import store_tweets, get_tweets
+from dash.dependencies import Input, Output, State
+from database import store_tweets, get_tweets, get_users
 import plotly.graph_objects as go
 
 
@@ -27,11 +31,12 @@ server = app.server
 bearer_token = 'AAAAAAAAAAAAAAAAAAAAACJWYQEAAAAAJ8L97yf%2FLbDoTTQLW77TcQLT8HQ%3D7GqMszwYUwK8lx8GFuhROYpIym8AyWQB0t6e7pEBeSbBBjTgny'
 
 colors = {"background": "#FFFFFF", "text": "#1DA1F2"}
-
+__twitter_count = 0
 
 app.layout = html.Div(
     # style={"backgroundColor": colors["background"]},
     children=[
+        dcc.Store(id='session', storage_type='session'),
         html.Div([
             "Search: ",
             dbc.Input(id='search_keyword', value='python',
@@ -55,48 +60,17 @@ app.layout = html.Div(
                         [
                             html.P("No. of Users"),
                             html.H6(
-                                id="gasText",
+                                id="number_of_users",
                                 className="info_text"
                             )
                         ],
-                        id="gas",
-                        className="pretty_container"
+                        
                     )),
-                    dbc.Col(html.Div(
-                        [
-                            html.P("Oil"),
-                            html.H6(
-                                id="oilText",
-                                className="info_text"
-                            )
-                        ],
-                        id="oil",
-                        className="pretty_container"
-                    )),
-                    dbc.Col(html.Div(
-                        [
-                            html.P("Water"),
-                            html.H6(
-                                id="waterText",
-                                className="info_text"
-                            )
-                        ],
-                        id="water",
-                        className="pretty_container"
-                    )),
+                 
                 ])
 
             ],
             id="infoContainer",
-            className="row"
-        ),
-        html.Div(
-            [
-                dcc.Graph(
-                    id='count_graph',
-                )
-            ],
-            id="rightCol",
             className="row"
         ),
 
@@ -108,16 +82,23 @@ app.layout = html.Div(
             children="text",
             # style={"textAlign": "center", "color": colors["text"]},
         ),
+        dbc.Row([
+            dcc.Graph(id="sentiment"),
+            dcc.Graph(id="pie-chart"),]),
         dcc.Graph(id="count"),
-        dcc.Graph(id="sentiment"),
-        dcc.Graph(id="pie-chart"),
+        
         dcc.Graph(id="sunburst_chart"),
+        dcc.Graph(id="pie-chart-locations"),
+        dcc.Graph(id="pie-sunburst-locations")
     ],
 )
 
 
+
+
 @ app.callback(
     Output(component_id="count", component_property="figure"),
+    Output(component_id="number_of_tweets", component_property="children"),
     Input(component_id="search_keyword", component_property="value"),
 
 )
@@ -129,12 +110,17 @@ def generate_count_graph(search_keyword):
     url = twitter.count_tweets_url(search_keyword, "day")
     res_json = twitter.twitter_auth_and_connect(bearer_token, url)
     print(res_json)
-    # print(dat)
+    # print(res_json['meta'])
+    # print(res_json['meta']['total_tweet_count'])
+    # # print(dat)
     # store(dat['data'])
+    __twitter_count = int(res_json['meta']['total_tweet_count'])
+   # print(__twitter_count)
+
     df = pd.DataFrame(res_json['data'])
     df['start'] = pd.to_datetime(df['start'])
     final = df[['start', 'tweet_count']]
-    print(final)
+   # print(final)
     fig = px.line(final, x="start", y="tweet_count")
 
     # fig.update_layout(
@@ -142,10 +128,12 @@ def generate_count_graph(search_keyword):
     #     paper_bgcolor=colors["background"],
     #     font_color=colors["text"],
     # )
-    return fig
+    return fig, __twitter_count
+
 
 
 @ app.callback(
+    
     Output(component_id="sentiment", component_property="figure"),
     Input(component_id="search_keyword", component_property="value"),
 
@@ -178,12 +166,18 @@ def generate_sentiment_graph(keyword):
 @ app.callback(
     Output(component_id="pie-chart", component_property="figure"),
     Input(component_id="search_keyword", component_property="value"),
+    State("session", "data")
 
 )
 def generate_pie(keyword):
-    df = pd.json_normalize(get_sentiment_percentage(10))
+    if data
+    json_sentiment  = get_sentiment_percentage(10)
+    data = json_sentiment
+    df = pd.json_normalize(json_sentiment)
+
     print(df)
-    print(df.values)
+
+    #print(df.values)
     names = ['negative', 'neutral', "positive"]
     fig = px.pie(df, values=df.values[0], names=df.columns,
                  title='Percentage of Sentiment', color_discrete_sequence=px.colors.sequential.Blues)
@@ -200,7 +194,7 @@ def generate_sunburst(keyword):
     context = {}
     context["domain"] = []
     context["entity"] = []
-    df = pd.json_normalize(get_tweets(10))
+    df = pd.json_normalize(get_tweets(100))
     for i in df['context']:
         if isinstance(i, list):
             # print(i)
@@ -218,7 +212,7 @@ def generate_sunburst(keyword):
     # for i in data.entity:
     #     data["entity_name"].append(i)
     print(data)
-    print(data.size)
+   # print(data.size)
     # fig = go.Figure()
     # fig.add_trace(go.Sunburst(
     #     ids=data.index,
@@ -237,6 +231,58 @@ def generate_sunburst(keyword):
     #   paper_bgcolor=colors["background"],
     #   font_color=colors["text"])
 
+    return fig
+@ app.callback(
+    Output(component_id="pie-chart-locations", component_property="figure"),
+    Output(component_id="number_of_users", component_property="children"),
+    Input(component_id="search_keyword", component_property="value"),
+
+)
+def generate_pie(keyword):
+    
+    df = pd.json_normalize(get_users(100))
+    print(df)
+    
+    
+    j = 0 
+    for i in df['location']:
+        
+        if isinstance(i,str) == False:
+           
+            df.at[j, "location"] = "Unknown"
+        j = j+1
+    # locations = df['location']
+    # df["location"].fillna(0)
+    
+    fig = px.pie(df, values=[1]*len( df["location"]), names= df["location"],
+                 title='Location of Users', color_discrete_sequence=px.colors.sequential.Blues)
+
+    return fig, len(df["user"])
+@ app.callback(
+    Output(component_id="pie-sunburst-locations", component_property="figure"),
+    Input(component_id="search_keyword", component_property="value"),
+
+)
+def generate_sunburst_locations(keyword):
+    df = pd.json_normalize(get_users(100))
+    
+    j = 0 
+    for i in df['location']:
+        
+        if isinstance(i,str) == False:
+           
+             df.at[j, "location"] = "Unknown"
+        j = j+1
+    # locations = df['location']
+    # df["location"].fillna(0)
+    
+    
+    print(df)
+    
+    fig = px.sunburst(df, path=['location', 'username'], values=[1]*len(df["location"]),labels={"null": "Unknown", "value": "# of users"},
+                 title='Location of Users', color_discrete_sequence=px.colors.sequential.Blues)
+    fig.update_traces(insidetextorientation='radial')
+    fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
     return fig
 
 
