@@ -1,23 +1,17 @@
-from email.policy import strict
-from math import nan
-import math
-from unicodedata import name
-from xml.etree.ElementInclude import LimitedRecursiveIncludeError
-from flask import Flask
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc
 from dash import html
-from numpy import NaN
+
 import plotly.express as px
-import os
+
 import pandas as pd
-import requests
+
 from analysis import sentiment_analysis, authenticate_client, analyze, get_sentiment_percentage
 import twitter_api as twitter
 from dash.dependencies import Input, Output, State
 from database import store_tweets, get_tweets, get_users
-import plotly.graph_objects as go
+
 
 
 # my_dboard.get_preview()
@@ -170,7 +164,6 @@ def generate_sentiment_graph(keyword):
 
 )
 def generate_pie(keyword):
-    if data
     json_sentiment  = get_sentiment_percentage(10)
     data = json_sentiment
     df = pd.json_normalize(json_sentiment)
