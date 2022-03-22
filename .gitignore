@@ -2,3 +2,7 @@
 *.pyc
 .DS_Store
 .env
+venv
+__pycache__
+.vscode
+atenv
