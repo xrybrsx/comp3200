@@ -33,9 +33,9 @@ app.layout = html.Div(
         dcc.Store(id='session', storage_type='session'),
         html.Div([
             "Search: ",
-            dbc.Input(id='search_keyword', value='python',
+            dcc.Input(id='search_keyword', value='python',
                       type='text', className=".col-md-8")
-        ]),
+        ]),html.Button("Search", id="submit_button" ),
 
         html.Div(
             [
@@ -89,6 +89,14 @@ app.layout = html.Div(
 
 
 
+@app.callback(
+    Output('search_keyword', 'value'),
+    Input('submit_button', 'value'),
+   
+)
+def update_output( value):
+    
+    return 'The input value was and the button has been clicked 0 times'
 
 @ app.callback(
     Output(component_id="count", component_property="figure"),
@@ -160,7 +168,7 @@ def generate_sentiment_graph(keyword):
 @ app.callback(
     Output(component_id="pie-chart", component_property="figure"),
     Input(component_id="search_keyword", component_property="value"),
-    State("session", "data")
+   
 
 )
 def generate_pie(keyword):

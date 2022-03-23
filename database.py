@@ -1,5 +1,8 @@
 
+from http import client
 from azure.cosmos import CosmosClient
+import azure.cosmos.exceptions as exceptions
+from azure.cosmos.partition_key import PartitionKey
 
 from twitter_api import search_keyword_url, tweets_full_info_url, twitter_auth_and_connect
 
@@ -25,16 +28,20 @@ def connectToContainer(database_name, container_name):
 # put fetched tweets into database table "tweets"
 
 
-def store_tweets(data):
+def store_tweets(data, keyword):
+    
+
     container = connectToContainer('tweets', 'tweets')
     for i in data['data']:
         item = container.upsert_item({
-            "text": i['text'],
             "id": i['id'],
+            "text": i['text'],
+            "keyword": keyword,
             "source": i['source'],
             "lang": i['lang'],
             "user": i['author_id'],
             "source": i['source'],
+            "public_metrics": i["public_metrics"]
         })
         print(item)
         if 'entities' in i:
@@ -51,12 +58,13 @@ def store_tweets(data):
 # put fetched users into database table "users"
 
 
-def store_users(data):
-    container = connectToContainer('tweets', 'users')
+def store_users(data, keyword):
+    container = connectToContainer(keyword, 'users')
     data = data['includes']
     for i in data['users']:
         item = container.upsert_item({
             "id": i['id'],
+            "keyword": keyword,
             "username": i['username'],
             "name": i['name'],
         })
@@ -70,7 +78,7 @@ def store_users(data):
 # get n tweets from db
 
 
-def get_tweets(n):
+def get_tweets( n):
     container = connectToContainer('tweets', 'tweets')
     # item_list = list(container.read_all_items(max_item_count=10))
     query = "SELECT TOP {} * FROM tweets".format(n)
@@ -80,8 +88,8 @@ def get_tweets(n):
         enable_cross_partition_query=True
     ))
     return items
-def get_users(n):
-    container = connectToContainer('tweets', 'users')
+def get_users(keyword,n):
+    container = connectToContainer(keyword, 'users')
     # item_list = list(container.read_all_items(max_item_count=10))
     query = "SELECT TOP {} * FROM users".format(n)
 
@@ -93,12 +101,8 @@ def get_users(n):
 
 
 if __name__ == "__main__":
-    print(get_users(100))
-    url = tweets_full_info_url("python", 100)
-    data = twitter_auth_and_connect(bearer_token, url)
-    print(data)
-    store_users(data)
-    store_tweets(data)
+        tweets = get_tweets( 100)
+        store_tweets("python", tweets)
 #     print(get_tweets(100))
 #     # with open('twitter_api_example.json') as json_file:
 #     #     data = json.load(json_file)
