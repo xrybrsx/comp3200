@@ -1,4 +1,5 @@
-
+import json
+from ast import keyword
 from http import client
 from azure.cosmos import CosmosClient
 import azure.cosmos.exceptions as exceptions
@@ -32,11 +33,14 @@ def store_tweets(data, keyword):
     
 
     container = connectToContainer('tweets', 'tweets')
+    data = str(data)
+    data = eval(data)
+    print(data)
     for i in data['data']:
         item = container.upsert_item({
-            "id": i['id'],
-            "text": i['text'],
             "keyword": keyword,
+            "id": i['id'],
+            "text": i['text'], 
             "source": i['source'],
             "lang": i['lang'],
             "user": i['author_id'],
@@ -59,17 +63,21 @@ def store_tweets(data, keyword):
 
 
 def store_users(data, keyword):
-    container = connectToContainer(keyword, 'users')
+    container = connectToContainer("tweets", 'users')
+    data = str(data)
+    data = eval(data)
     data = data['includes']
+    
     for i in data['users']:
         item = container.upsert_item({
-            "id": i['id'],
             "keyword": keyword,
+            "id": i['id'],
             "username": i['username'],
             "name": i['name'],
         })
-        print(item)
+        #print(item)
         if 'location' in i:
+            print(i)
             item['location'] = i['location']
             container.upsert_item(item)
 
@@ -77,21 +85,30 @@ def store_users(data, keyword):
 
 # get n tweets from db
 
+def get_public_metrics(n, keyword):
+    return 0
+def get_tweets(n,keyword):
 
-def get_tweets( n):
+    # with open('twitter_api_example.json') as json_file:
+    #    data = json.load(json_file)
+    # return data
     container = connectToContainer('tweets', 'tweets')
     # item_list = list(container.read_all_items(max_item_count=10))
-    query = "SELECT TOP {} * FROM tweets".format(n)
-
+    query = "SELECT TOP {} * FROM tweets t WHERE t.keyword = \"{}\"".format(n,keyword)
+    print(query)
     items = list(container.query_items(
         query=query,
         enable_cross_partition_query=True
     ))
     return items
-def get_users(keyword,n):
-    container = connectToContainer(keyword, 'users')
+
+def get_users(n, keyword):
+    # with open('twitter_api_example.json') as json_file:
+    #    data = json.load(json_file)
+    # return data
+    container = connectToContainer("tweets", 'users')
     # item_list = list(container.read_all_items(max_item_count=10))
-    query = "SELECT TOP {} * FROM users".format(n)
+    query = "SELECT TOP {} * FROM users u WHERE u.keyword = \"{}\"".format(n, keyword)
 
     items = list(container.query_items(
         query=query,
@@ -101,8 +118,11 @@ def get_users(keyword,n):
 
 
 if __name__ == "__main__":
-        tweets = get_tweets( 100)
-        store_tweets("python", tweets)
+        
+        keyword = "python"
+        print(get_tweets(10,keyword))
+        
+       # store_users(tweets, keyword)
 #     print(get_tweets(100))
 #     # with open('twitter_api_example.json') as json_file:
 #     #     data = json.load(json_file)

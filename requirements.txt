@@ -6,6 +6,7 @@ dash
 pandas
 plotly.express
 dash_bootstrap_components
-azure.ai.textanalytics
-azure.core
 itsdangerous==2.0.1
+nltk
+nltk.sentiment
+dash.dependencies

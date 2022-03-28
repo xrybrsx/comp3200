@@ -1,9 +1,11 @@
 from dataclasses import dataclass
+from database import get_tweets
 # from azure.core.credentials import AzureKeyCredential
 # from azure.ai.textanalytics import TextAnalyticsClient
 from nltk.sentiment import SentimentIntensityAnalyzer
 import nltk
 import string 
+import pandas as pd
 
 # from numpy import negative, positive
 # import pandas as pd
@@ -150,39 +152,51 @@ import string
 #     return sentiment_analysis(client, texts)
 
 
-# def get_sentiment_percentage(number):
-#     pos = 0
-#     neg = 0
-#     neutral = 0
-#     temp = analyze(number)
-#     # [{'text': '前半に例として Python の import と C# の using を書いたのを消したんですけどその名残が残っ
-#     # ちゃいましたね', 'sentiment': {'positive': 0.09, 'neutral': 0.75, 'negative': 0.16}},
-#     # {'text':...
-#     # print(temp)
-#     for pair in temp:
-#         pair = pair['sentiment']
-#         # print(pair)
-#         # print((pair['positive']))
+def get_sentiment_percentage(data):
 
-#         pos = pos + pair['positive']
-#        # print(pos)
+    pos = 0
+    neg = 0
+    neu = 0
+    text = []
+    for i in data:
+       
+        text.append( i["text"])
+    print(text)
+    number = len(data)
+   
+    temp = analyse(data)
+    print(temp)
+    # [{'text': '前半に例として Python の import と C# の using を書いたのを消したんですけどその名残が残っ
+    # ちゃいましたね', 'sentiment': {'positive': 0.09, 'neutral': 0.75, 'negative': 0.16}},
+    # {'text':...
+    # print(temp)
+    for pair in temp:
+        pair = pair["sentiment"]
+        print(pair)
+        # print(pair)
+        # print((pair['positive']))
 
-#         neg = neg + pair['negative']
-#         # print(neg)
+        pos = pos + pair['positive']
+       # print(pos)
 
-#         neutral = neutral + pair['neutral']
-#         # print("neutral")
-#     pos = pos/number
-#     neg = neg/number
-#     neutral = neutral/number
-#     arr = {"positive": pos, "neutral": neutral, "negative": neg}
-#     return arr
+        neg = neg + pair['negative']
+        # print(neg)
+
+        neu = neu + pair['neutral']
+        # print("neutral")
+    pos = pos/number
+    neg = neg/number
+    neu = neu/number
+    arr = {"positive": pos, "neutral": neu, "negative": neg}
+    return arr
 
 
 
 def analyse(data):
     text = []
     sentiment_list = []
+    # sentiment_list["text"] = []
+    # sentiment_list["sentiment"] = []
     for i in data:
        
         text.append( i["text"])
@@ -193,10 +207,14 @@ def analyse(data):
     sia = SentimentIntensityAnalyzer()
     
     for w in sentences:
-         
+        #  print(w)
          w = "".join([i for i in w if i not in string.punctuation])
          sentiment = sia.polarity_scores(w)
-         sentiment_list.append((w,sentiment))
+         sentiment_list.append({"text": w, "sentiment": {"positive": sentiment["pos"], "neutral": sentiment["neu"],  "negative": sentiment["neg"], "compound": sentiment["compound"]+0.01}})
+
+        #  sentiment = sia.polarity_scores(w)
+        #  sentiment_list["text"].append(w)
+        #  sentiment_list["sentiment"].append(sentiment)
 
     return sentiment_list  
 
@@ -208,13 +226,13 @@ def common_words(data, n):
        
         text.append( i["text"])
     
-    stopwords = nltk.corpus.stopwords.words("english")
-    words = [w for w in text if w.lower() not in stopwords]
+    # stopwords = nltk.corpus.stopwords.words("english")
+    # words = [w for w in text if w.lower() not in stopwords]
     tmp = []
-    for w in words:
-         print(w)
+    for w in text:
+        #  print(w)
          w = "".join([i for i in w if i not in string.punctuation])
-         print(w)
+        #  print(w)
          tmp = tmp + nltk.word_tokenize(w)
     
     fd = nltk.FreqDist(tmp)
@@ -222,10 +240,14 @@ def common_words(data, n):
     # sentiment_analysis_with_opinion_mining_example(client)
 
 
-if __name__ == "__main__":
-   # nltk.download('vader_lexicon')
-    data = get_tweets(10)
-    print(analyse(data))
+# if __name__ == "__main__":
+
+   # nltk.download('vader_lexicon')   
+#    data = get_tweets(10)
+#    score = get_sentiment_percentage(data)
+
+   
+#    print(score)
 #     df = pd.json_normalize(get_sentiment_percentage(10))
 
 #     # tweets = get_tweets(2)

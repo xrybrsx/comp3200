@@ -6,8 +6,8 @@ import requests
 
 def tweets_full_info_url(keyword, n):
     mrf = "max_results={}".format(n)
-    q = "query={}".format(keyword)
-    url = "https://api.twitter.com/2/tweets/search/recent?{}&expansions=author_id,geo&{}&tweet.fields=author_id,context_annotations,created_at,entities,id,lang,source,text,withheld,public_metrics&place.fields=country,contained_within,name,place_type,country_code&user.fields=location".format(
+    q = "query={} lang:en".format(keyword)
+    url = "https://api.twitter.com/2/tweets/search/recent?{}&user.fields=id,location,name,username&expansions=author_id&place.fields=contained_within,country,country_code,full_name,geo,id,name,place_type&tweet.fields=author_id,context_annotations,created_at,entities,id,lang,source,text,withheld,public_metrics,geo&{}".format(
         mrf, q
     )
     return url
