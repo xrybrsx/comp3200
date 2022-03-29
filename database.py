@@ -85,8 +85,17 @@ def store_users(data, keyword):
 
 # get n tweets from db
 
-def get_public_metrics(n, keyword):
-    return 0
+# def get_public_metrics(n, keyword):
+#     container = connectToContainer('tweets', 'tweets')
+#     # item_list = list(container.read_all_items(max_item_count=10))
+#     query = "SELECT TOP {} * FROM tweets t WHERE t.keyword = \"{}\"".format(n,keyword)
+#     print(query)
+#     items = list(container.query_items(
+#         query=query,
+#         enable_cross_partition_query=True
+#     ))
+
+#     return items
 def get_tweets(n,keyword):
 
     # with open('twitter_api_example.json') as json_file:
@@ -120,7 +129,7 @@ def get_users(n, keyword):
 if __name__ == "__main__":
         
         keyword = "python"
-        print(get_tweets(10,keyword))
+       
         
        # store_users(tweets, keyword)
 #     print(get_tweets(100))

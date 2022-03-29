@@ -92,9 +92,9 @@ dash_app.layout = html.Div(
 
                     dbc.Col(dbc.Card(
                         [
-                            html.P("No. of Tweets"),
+                            html.P("No. of Replies"),
                             html.H6(
-                                id="number_of_todo",
+                                id="number_of_replies",
                                 className="info_text",
                                
                             )
@@ -120,14 +120,14 @@ dash_app.layout = html.Div(
              dbc.Col(dcc.Graph(id="sentiment_plot"), md=8),
              dbc.Col(dcc.Graph(id="pie-chart"),  md=4),
             ], ),
-            dcc.Graph(id="count"),
+            # dcc.Graph(id="count"),
 
-             dbc.Row([
+            #  dbc.Row([
             
-             dbc.Col(dcc.Graph(id="sunburst_chart"), md=4),
-             dbc.Col(dcc.Graph(id="common_words_bar_chart"),  md=8),
-            ], ),
-            dcc.Graph(id="pie-sunburst-locations")
+            #  dbc.Col(dcc.Graph(id="sunburst_chart"), md=4),
+            #  dbc.Col(dcc.Graph(id="common_words_bar_chart"),  md=8),
+            # ], ),
+            # dcc.Graph(id="pie-sunburst-locations")
            # dcc.Graph(id="sentiment")
     #     dcc.Graph(id="count"),
         
@@ -212,7 +212,7 @@ def generate_sentiment_graph(keyword):
     # store(tweets)
     #
     data = get_tweets(10, keyword)
-   
+    
    
     sentiment_score = analyse(data)
     
@@ -240,6 +240,9 @@ def generate_sentiment_graph(keyword):
 @ dash_app.callback(
     
     Output(component_id="sentiment_plot", component_property="figure"),
+    Output(component_id="number_of_likes", component_property="children"),
+    Output(component_id="number_of_retweets", component_property="children"),
+    Output(component_id="number_of_replies", component_property="children"),
     Input(component_id="output-div", component_property="children"),
 )
 
@@ -249,6 +252,12 @@ def generate_sentiment_plot(keyword):
     # store(tweets)
     #
     data = get_tweets(10, keyword)
+    public_metrics = [d['public_metrics'] for d in data ]
+    likes = [d['like_count'] for d in public_metrics]
+    
+    retweets = [d['retweet_count'] for d in public_metrics]
+    replies = [d['reply_count'] for d in public_metrics]
+    
    
    
     sentiment_score = analyse(data)
@@ -271,7 +280,7 @@ def generate_sentiment_plot(keyword):
     #     paper_bgcolor=colors["background"],
     #     font_color=colors["text"],
     # )
-    return fig
+    return fig, sum(likes), sum(retweets), sum(replies)
 @ dash_app.callback(
     Output(component_id="pie-chart", component_property="figure"),
     Input(component_id="output-div", component_property="children"),
@@ -311,11 +320,9 @@ def generate_sunburst(keyword):
             # print(i)
             for j in i:
                 # print(j['domain'])
-                context["domain"].dash_app
-            end(j['domain']['name'])
+                context["domain"].append(j['domain']['name'])
                 # print(j['entity'])
-                context["entity"].dash_app
-            end(j['entity']['name'])
+                context["entity"].append(j['entity']['name'])
 
     data = pd.DataFrame(context)
     # data["domain_name"] = []
@@ -423,6 +430,5 @@ def common_words_bar_chart(keyword):
 
 
 if __name__ == "__main__":
-    dash_app
-.run_server(debug=True)
+    dash_app.run_server(debug=True)
     # generate_pie("python")
