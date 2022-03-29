@@ -17,9 +17,10 @@ from database import store_tweets, get_tweets, get_users, store_users
 # my_dboard.get_preview()
 local_storage = []
 
-app = dash.Dash(external_stylesheets=[dbc.themes.MORPH])
-#app = dash.Dash()
-server = app.server
+dash_app = dash.Dash(external_stylesheets=[dbc.themes.MORPH])
+#dash_app
+# = dash.Dash()
+app = dash_app.server
 
 
 # data = twitter.process_yaml()
@@ -28,7 +29,7 @@ bearer_token = 'AAAAAAAAAAAAAAAAAAAAACJWYQEAAAAAJ8L97yf%2FLbDoTTQLW77TcQLT8HQ%3D
 
 __twitter_count = 0
 
-app.layout = html.Div(
+dash_app.layout = html.Div(
     # style={"backgroundColor": colors["background"]},
     children=[
        
@@ -139,11 +140,13 @@ app.layout = html.Div(
 
 
 
-# app.css.append_css({
+# dash_app
+#.css.dash_app
+#end_css({
 #     "external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"
 # })
 
-@app.callback(
+@dash_app.callback(
     Output('output-div','children' ), 
     [Input('submit-button', 'n_clicks')],
     [State('search_keyword', 'value')], 
@@ -158,7 +161,7 @@ def update_output(clicks, input_value):
             # store_users(tweets,input_value)
             return input_value
 
-@ app.callback(
+@ dash_app.callback(
     Output(component_id="count", component_property="figure"),
     Output(component_id="number_of_tweets", component_property="children"),
     Input(component_id="output-div", component_property="children"),
@@ -195,7 +198,7 @@ def generate_count_graph(search_keyword):
 
 
 
-@ app.callback(
+@ dash_app.callback(
     
     Output(component_id="sentiment", component_property="figure"),
     Input(component_id="output-div", component_property="children"),
@@ -234,7 +237,7 @@ def generate_sentiment_graph(keyword):
     return fig
 
 
-@ app.callback(
+@ dash_app.callback(
     
     Output(component_id="sentiment_plot", component_property="figure"),
     Input(component_id="output-div", component_property="children"),
@@ -269,7 +272,7 @@ def generate_sentiment_plot(keyword):
     #     font_color=colors["text"],
     # )
     return fig
-@ app.callback(
+@ dash_app.callback(
     Output(component_id="pie-chart", component_property="figure"),
     Input(component_id="output-div", component_property="children"),
    
@@ -292,7 +295,7 @@ def generate_pie(keyword):
     return fig
 
 
-@ app.callback(
+@ dash_app.callback(
     Output(component_id="sunburst_chart", component_property="figure"),
     Input(component_id="output-div", component_property="children"),
 
@@ -308,17 +311,21 @@ def generate_sunburst(keyword):
             # print(i)
             for j in i:
                 # print(j['domain'])
-                context["domain"].append(j['domain']['name'])
+                context["domain"].dash_app
+            end(j['domain']['name'])
                 # print(j['entity'])
-                context["entity"].append(j['entity']['name'])
+                context["entity"].dash_app
+            end(j['entity']['name'])
 
     data = pd.DataFrame(context)
     # data["domain_name"] = []
     # data["entity_name"] = []
     # for i in data.domain:
-    #     data["domain_name"].append(i)
+    #     data["domain_name"].dash_app
+    #end(i)
     # for i in data.entity:
-    #     data["entity_name"].append(i)
+    #     data["entity_name"].dash_app
+    #end(i)
     print(data)
    # print(data.size)
     # fig = go.Figure()
@@ -340,7 +347,7 @@ def generate_sunburst(keyword):
     #   font_color=colors["text"])
 
     return fig
-@ app.callback(
+@ dash_app.callback(
     Output(component_id="pie-chart-locations", component_property="figure"),
     Output(component_id="number_of_users", component_property="children"),
     Input(component_id="output-div", component_property="children"),
@@ -367,7 +374,7 @@ def generate_pie(keyword):
                  title='Location of Users', color_discrete_sequence=px.colors.sequential.Blues)
 
     return fig, len(df["user"])
-@ app.callback(
+@ dash_app.callback(
     Output(component_id="pie-sunburst-locations", component_property="figure"),
     Input(component_id="output-div", component_property="children"),
 
@@ -395,7 +402,7 @@ def generate_sunburst_locations(keyword):
     fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
     return fig
 
-@ app.callback(
+@ dash_app.callback(
     Output(component_id="common_words_bar_chart", component_property="figure"),
     Input(component_id="output-div", component_property="children"),
 
@@ -416,5 +423,6 @@ def common_words_bar_chart(keyword):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    dash_app
+.run_server(debug=True)
     # generate_pie("python")
