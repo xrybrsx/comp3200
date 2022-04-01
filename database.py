@@ -35,7 +35,7 @@ def store_tweets(data, keyword):
     container = connectToContainer('tweets', 'tweets')
     data = str(data)
     data = eval(data)
-    print(data)
+    # print(data)
     for i in data['data']:
         item = container.upsert_item({
             "keyword": keyword,
@@ -47,7 +47,7 @@ def store_tweets(data, keyword):
             "source": i['source'],
             "public_metrics": i["public_metrics"]
         })
-        print(item)
+        # print(item)
         if 'entities' in i:
             if 'hashtags' in i['entities']:
                 item['hashtags'] = i['entities']['hashtags']
@@ -77,7 +77,7 @@ def store_users(data, keyword):
         })
         #print(item)
         if 'location' in i:
-            print(i)
+            # print(i)
             item['location'] = i['location']
             container.upsert_item(item)
 

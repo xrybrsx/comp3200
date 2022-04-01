@@ -2,6 +2,10 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import dcc
 from dash import html
+import nltk
+
+
+
 
 import plotly.express as px
 
@@ -15,7 +19,7 @@ from database import store_tweets, get_tweets, get_users, store_users
 
 
 # my_dboard.get_preview()
-local_storage = []
+__local_storage = []
 
 dash_app = dash.Dash(external_stylesheets=[dbc.themes.MORPH])
 #dash_app
@@ -32,38 +36,57 @@ __twitter_count = 0
 dash_app.layout = html.Div(
     # style={"backgroundColor": colors["background"]},
     children=[
-       
-        html.Div([
-            "Search: ",
-            dcc.Input(id='search_keyword',
-                      type='text'),
-                      html.Button("Search", id='submit-button', type='submit' ),
-                      html.H6(id='output-div', className='search-output')
-                      
-        ]),
-       
-       
+     dcc.Store(id='memory-output'),
 
-        html.Div(
-            [
+    dbc.Navbar(
+    dbc.Container(
+        [
+           
+           
+            dbc.Collapse(
+                dbc.Row(
+    [
+        dbc.Col(dcc.Input(id='search_keyword', type="search", placeholder="Serach a word")),
+        dbc.Col(children=[
+            dbc.Button(
+                "Search",id='submit-button', color="primary", className="ms-1", n_clicks=0
+            ),
+             html.H6(id='output-div', className='search-output', style={"visibility": "hidden", "font-size": "1px"})],
+           
+        ),
+    ],
+    
+    align="center",
+),              is_open=False,
+                navbar=True,
+    
+)]), color="light",
+    dark=True, 
+    className="justify-content-center"),
+       
+        dbc.Container(
+            [ 
+               
+                
                 dbc.Row([
+                   
 
                     dbc.Col(dbc.Card(
                         [
                             html.P("No. of Tweets"),
                             html.H6(
                                 id="number_of_tweets",
-                                className="info_text",
+                                 className="card-text",
                               
                             )
-                        ]),  md = 2),
+                        ]), md = 2 ),
 
                     dbc.Col(dbc.Card(
                         [
                             html.P("No. of Users"),
                             html.H6(
                                 id="number_of_users",
-                                className="info_text",
+                                 className="card-text",
                                
                             )
                         ],
@@ -75,17 +98,17 @@ dash_app.layout = html.Div(
                             html.P("No. of Likes"),
                             html.H6(
                                 id="number_of_likes",
-                                className="info_text",
+                                 className="card-text",
                               
                             )
-                        ]),  md = 2),
+                        ]),  md = 2 ),
 
                     dbc.Col(dbc.Card(
                         [
                             html.P("No. of Retweets"),
                             html.H6(
                                 id="number_of_retweets",
-                                className="info_text",
+                                 className="card-text",
                                
                             )
                         ]),  md = 2),
@@ -95,43 +118,54 @@ dash_app.layout = html.Div(
                             html.P("No. of Replies"),
                             html.H6(
                                 id="number_of_replies",
-                                className="info_text",
+                                 className="card-text",
                                
                             )
-                        ]),  md = 2),
+                        ]), md = 2),
                  
-                ]), 
+                ], className="text-center pad-row",
+                 align="center",
+                 justify ="center"), 
 
             ],
             id="infoContainer",
-            className="row-center"
+            style={"padding": "1em"},
+            className = "container-fluid ",
+            
         ),
 
-        html.H1(
-            children="Twitter Sentiment Dashboard", className="text-center"
-            # style={"textAlign": "center", "color": colors["text"]},
-        ),
-        html.Div(
-            children="This is project towards a BSc Computer Science degree aiming to do a research on the public's opinion.",
-           className="text-center"
-        ),
+       
+        # html.Div(
+        #     children="This is project towards a BSc Computer Science degree aiming to do a research on the public's opinion.",
+        #    className="text-center"
+        # ),
         dbc.Row([
+           
             
-             dbc.Col(dcc.Graph(id="sentiment_plot"), md=8),
+            
+             dbc.Col(dcc.Graph(id="count"), md=8),
              dbc.Col(dcc.Graph(id="pie-chart"),  md=4),
-            ], ),
-            # dcc.Graph(id="count"),
-
-            #  dbc.Row([
+            ]),
             
-            #  dbc.Col(dcc.Graph(id="sunburst_chart"), md=4),
-            #  dbc.Col(dcc.Graph(id="common_words_bar_chart"),  md=8),
-            # ], ),
-            # dcc.Graph(id="pie-sunburst-locations")
-           # dcc.Graph(id="sentiment")
-    #     dcc.Graph(id="count"),
+dbc.Row([
+            dbc.Col(dcc.Graph(id="sentiment_plot"), md=8),
+            
+            dbc.Col(html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", style={"width": "450px", "height":"450px"}),)# style=height:200px;width:300px;")),
+])  ,
+             dbc.Row([
+            
+             dbc.Col(dcc.Graph(id="sunburst_chart"), md=8),
+             dbc.Col(dcc.Graph(id="pie-sunburst-locations")  ),
+            ], ),
+            dbc.Row([
+            dbc.Col(dcc.Graph(id="common_words_bar_chart")),
+            dbc.Col(dcc.Graph(id="hashtags_bar_chart"))
+              ], ),
+            
+        #    dcc.Graph(id="sentiment")
+        # dcc.Graph(id="count"),
         
-    #     dcc.Graph(id="sunburst_chart"),
+        # dcc.Graph(id="sunburst_chart"),
     #   ##  dcc.Graph(id="pie-chart-locations"),
     #     dcc.Graph(id="pie-sunburst-locations")
         #dcc.Graph(id="common_words_bar_chart")
@@ -148,6 +182,7 @@ dash_app.layout = html.Div(
 
 @dash_app.callback(
     Output('output-div','children' ), 
+    Output('memory-output','data'), 
     [Input('submit-button', 'n_clicks')],
     [State('search_keyword', 'value')], 
     
@@ -155,11 +190,22 @@ dash_app.layout = html.Div(
 def update_output(clicks, input_value):
         if clicks is not None:
             
-            # url = twitter.tweets_full_info_url(input_value,10)
-            # tweets = twitter.twitter_auth_and_connect(bearer_token, url)
+            url = twitter.tweets_full_info_url(input_value,100)
+            tweets = twitter.twitter_auth_and_connect(bearer_token, url)
+            data = tweets
+            data = str(data)
+            data = eval(data)
+            
+            # print(data)
+            # __local_storage = pd.json_normalize(tweets['data'])
+            # print(__local_storage)
+            # print(__local_storage["id"])
+            # print("---------------------")
+            # print(__local_storage["public_metrics.like_count"])
+            
             # store_tweets(tweets, input_value)
             # store_users(tweets,input_value)
-            return input_value
+            return input_value, data
 
 @ dash_app.callback(
     Output(component_id="count", component_property="figure"),
@@ -188,7 +234,7 @@ def generate_count_graph(search_keyword):
     final = df[['start', 'tweet_count']]
    # print(final)
     fig = px.line(final, x="start", y="tweet_count")
-
+    # fig.update_layout( plot_bgcolor='rgb(10,10,10)')
     # fig.update_layout(
     #     plot_bgcolor=colors["background"],
     #     paper_bgcolor=colors["background"],
@@ -198,43 +244,43 @@ def generate_count_graph(search_keyword):
 
 
 
-@ dash_app.callback(
+# @ dash_app.callback(
     
-    Output(component_id="sentiment", component_property="figure"),
-    Input(component_id="output-div", component_property="children"),
+#     Output(component_id="sentiment", component_property="figure"),
+#     Input(component_id="output-div", component_property="children"),
     
 
 
-)
-def generate_sentiment_graph(keyword):
- if len(keyword) > 1 :
-    # tweets = twitter.search_hashtag_url(keyword, 10)
-    # store(tweets)
-    #
-    data = get_tweets(10, keyword)
+# )
+# def generate_sentiment_graph(keyword):
+#  if len(keyword) > 1 :
+#     # tweets = twitter.search_hashtag_url(keyword, 10)
+#     # store(tweets)
+#     #
+#     data = get_tweets(100, keyword)
     
    
-    sentiment_score = analyse(data)
+#     sentiment_score = analyse(data)
     
-    # df = pd.DataFrame(sentiment_score)
-    df = pd.json_normalize(sentiment_score)
-    print(df)
-    local_storage = df
-    df["sentiment"] = df["sentiment.positive"] - df["sentiment.negative"]
-    # final = df[['text', 'sentiment']]
-    print(df)
-    fig = px.bar(df, x=df.index, y='sentiment', hover_data=[
-        'text'], labels={'index': '#'}, color="sentiment", color_continuous_scale=px.colors.sequential.RdBu)
-   # fig = px.scatter(df, x="sentiment.positive",
-    # y="sentiment.negative")
+#     # df = pd.DataFrame(sentiment_score)
+#     df = pd.json_normalize(sentiment_score)
+#     # print(df)
+   
+#     df["sentiment"] = df["sentiment.positive"] - df["sentiment.negative"]
+#     # final = df[['text', 'sentiment']]
+#     # print(df)
+#     fig = px.bar(df, x=df.index, y='sentiment', hover_data=[
+#         'text'], labels={'index': '#'}, color="sentiment", color_continuous_scale=px.colors.sequential.RdBu)
+#    # fig = px.scatter(df, x="sentiment.positive",
+#     # y="sentiment.negative")
 
-    # fig.update_layout(
+#     # fig.update_layout(
 
-    #     plot_bgcolor=colors["background"],
-    #     paper_bgcolor=colors["background"],
-    #     font_color=colors["text"],
-    # )
-    return fig
+#     #     plot_bgcolor=colors["background"],
+#     #     paper_bgcolor=colors["background"],
+#     #     font_color=colors["text"],
+#     # )
+#     return fig
 
 
 @ dash_app.callback(
@@ -243,34 +289,72 @@ def generate_sentiment_graph(keyword):
     Output(component_id="number_of_likes", component_property="children"),
     Output(component_id="number_of_retweets", component_property="children"),
     Output(component_id="number_of_replies", component_property="children"),
-    Input(component_id="output-div", component_property="children"),
+    Input(component_id="memory-output", component_property="data")
+    # Input(component_id="output-div", component_property="children")
+   
 )
 
-def generate_sentiment_plot(keyword):
- if len(keyword) > 1 :
+def generate_sentiment_plot(data):
+  if not (data == None):
+    
     # tweets = twitter.search_hashtag_url(keyword, 10)
     # store(tweets)
-    #
-    data = get_tweets(10, keyword)
-    public_metrics = [d['public_metrics'] for d in data ]
-    likes = [d['like_count'] for d in public_metrics]
     
-    retweets = [d['retweet_count'] for d in public_metrics]
-    replies = [d['reply_count'] for d in public_metrics]
+    #data = get_tweets(100, keyword)
     
    
+    # print("--------------- data -----------------")
+    # print(local_storage)
+    
+    data = data['data']
+    # print(data)
+    likes = []
+    retweets = []
+    replies = []
+    for i in data:
+        likes.append(i["public_metrics"]["like_count"])
+        retweets.append(i["public_metrics"]["retweet_count"])
+        replies.append(i["public_metrics"]["reply_count"])
+    # print(likes)
+    # likes = data['public_metrics.like_count']
+    # likes = data['public_metrics.like_count']
+    
+    # public_metrics = [d['public_metrics'] for d in data ]
+    # likes = [d['like_count'] for d in public_metrics]
+    
+    # retweets = [d['retweet_count'] for d in public_metrics]
+    # replies = [d['reply_count'] for d in public_metrics]
+    # print("data\n---------------")
+    # print(data)
    
     sentiment_score = analyse(data)
+    tmp = []
+    for i in data:
+        tmp.append(i["id"])
+    
+    # print("tmp\n--------------------")
+    # print(tmp)
+    # for i in sentiment_score:
+    #     sentiment_score.append(data["id"])
     
     # df = pd.DataFrame(sentiment_score)
+    # print(sentiment_score)
     df = pd.json_normalize(sentiment_score)
-    print(df)
-    local_storage = df
+    # print("df\n--------------------")
+    df["id"] = tmp
+    # print(df)
+    
+   
+    
     #df["sentiment"] = df["sentiment.positive"] - df["sentiment.negative"]
     # final = df[['text', 'sentiment']]
-    print(df)
+    
     fig = px.scatter(df, x=df["sentiment.positive"], y=df["sentiment.negative"], hover_data=[
-        'text'], labels={'sentiment.positive': 'positive weight', 'sentiment.negative': 'negative weight', "sentiment.compound": "compound"}, color=df["sentiment.compound"], color_continuous_scale=px.colors.sequential.RdBu)
+         'id'],  labels={'sentiment.positive': 'positive weight', 'sentiment.negative': 'negative weight', "sentiment.compound": "compound"}, color=df["sentiment.compound"], color_continuous_scale=px.colors.sequential.RdBu)
+    fig.update_layout(clickmode='event+select')
+
+    fig.update_traces(marker_size=10)
+   
    # fig = px.scatter(df, x="sentiment.positive",
     # y="sentiment.negative")
 
@@ -279,22 +363,54 @@ def generate_sentiment_plot(keyword):
     #     plot_bgcolor=colors["background"],
     #     paper_bgcolor=colors["background"],
     #     font_color=colors["text"],
+
     # )
+    
+    
     return fig, sum(likes), sum(retweets), sum(replies)
+
+
+@dash_app.callback(
+    Output("tweet-iframe", "src"),
+    [Input("sentiment_plot", "clickData")],
+)
+def click(clickData):
+    # print(clickData)
+    points = clickData['points']
+    # print(points)
+    tmp = points[0]
+    data = tmp['customdata']
+    tweet_id = data[0]
+    # print(tweet_id)
+    
+   
+    url = "https://twitframe.com/show?url=https://twitter.com/twitter/status/{}".format(tweet_id)
+    
+    
+   
+    print(url)
+    if not clickData:
+        raise dash.exceptions.PreventUpdate
+    
+    return url
+
+
 @ dash_app.callback(
     Output(component_id="pie-chart", component_property="figure"),
-    Input(component_id="output-div", component_property="children"),
+    Input(component_id="memory-output", component_property="data")
+    # Input(component_id="output-div", component_property="children"),
    
 
 )
-def generate_pie(keyword):
- if len(keyword) > 1:
-    data = get_tweets(10, keyword)
-    json_sentiment  = get_sentiment_percentage(data)
-    data = json_sentiment
+def generate_pie(data):
+ if not (data == None):
+    # data = get_tweets(100, keyword)
+    data = data['data']
+    # print("--------------- json_sentiment -----------------")
+    json_sentiment = get_sentiment_percentage(data)
     df = pd.json_normalize(json_sentiment)
 
-    print(df)
+    # print(df)
 
     #print(df.values)
     names = ['negative', 'neutral', "positive"]
@@ -306,16 +422,19 @@ def generate_pie(keyword):
 
 @ dash_app.callback(
     Output(component_id="sunburst_chart", component_property="figure"),
-    Input(component_id="output-div", component_property="children"),
+    Input(component_id="memory-output", component_property="data"),
 
 )
-def generate_sunburst(keyword):
-  if len(keyword) > 1:
+def generate_sunburst(data):
+  if not (data == None):
+    data = data['data']
     context = {}
     context["domain"] = []
     context["entity"] = []
-    df = pd.json_normalize(get_tweets(10, keyword))
-    for i in df['context']:
+    df = pd.json_normalize(data)
+    # print("--------------- normalize data for context -----------------")
+    # print(df)
+    for i in df['context_annotations']:
         if isinstance(i, list):
             # print(i)
             for j in i:
@@ -333,7 +452,7 @@ def generate_sunburst(keyword):
     # for i in data.entity:
     #     data["entity_name"].dash_app
     #end(i)
-    print(data)
+    # print(data)
    # print(data.size)
     # fig = go.Figure()
     # fig.add_trace(go.Sunburst(
@@ -354,41 +473,44 @@ def generate_sunburst(keyword):
     #   font_color=colors["text"])
 
     return fig
-@ dash_app.callback(
-    Output(component_id="pie-chart-locations", component_property="figure"),
-    Output(component_id="number_of_users", component_property="children"),
-    Input(component_id="output-div", component_property="children"),
+# @ dash_app.callback(
+#     Output(component_id="pie-chart-locations", component_property="figure"),
+#     Output(component_id="number_of_users", component_property="children"),
+#     Input(component_id="memory-output", component_property="data"),
 
-)
-def generate_pie(keyword):
- if len(keyword) > 1 :
+# )
+# def generate_pie(data):
+#  if len(data) > 1 :
+#     data = data['includes']
+#     df = pd.json_normalize(data)
+#     # print(df)
     
-    df = pd.json_normalize(get_users(10, keyword))
-    print(df)
     
-    
-    j = 0 
-    for i in df['location']:
+#     j = 0 
+#     for i in df['location']:
         
-        if isinstance(i,str) == False:
+#         if isinstance(i,str) == False:
            
-            df.at[j, "location"] = "Unknown"
-        j = j+1
-    # locations = df['location']
-    # df["location"].fillna(0)
+#             df.at[j, "location"] = "Unknown"
+#         j = j+1
+#     # locations = df['location']
+#     # df["location"].fillna(0)
     
-    fig = px.pie(df, values=[1]*len( df["location"]), names= df["location"],
-                 title='Location of Users', color_discrete_sequence=px.colors.sequential.Blues)
+#     fig = px.pie(df, values=[1]*len( df["location"]), names= df["location"],
+#                  title='Location of Users', color_discrete_sequence=px.colors.sequential.Blues)
 
-    return fig, len(df["user"])
+#     return fig, len(df["user"])
 @ dash_app.callback(
     Output(component_id="pie-sunburst-locations", component_property="figure"),
-    Input(component_id="output-div", component_property="children"),
+    Output(component_id="number_of_users", component_property="children"),
+    Input(component_id="memory-output", component_property="data"),
 
 )
-def generate_sunburst_locations(keyword):
- if len(keyword) >1 :
-    df = pd.json_normalize(get_users(10, keyword))
+def generate_sunburst_locations(data):
+  if not (data == None):
+    data = data['includes']
+    data = data['users']
+    df = pd.json_normalize(data)
     
     j = 0 
     for i in df['location']:
@@ -401,30 +523,69 @@ def generate_sunburst_locations(keyword):
     # df["location"].fillna(0)
     
     
-    print(df)
+    # print(df)
     
-    fig = px.sunburst(df, path=['location', 'username'], values=[1]*len(df["location"]),labels={"null": "Unknown", "value": "# of users"},
+    fig = px.sunburst(df, path=['location'], values=[1]*len(df["location"]),labels={"null": "Unknown", "value": "# of users"},
                  title='Location of Users', color_discrete_sequence=px.colors.sequential.Blues)
     fig.update_traces(insidetextorientation='radial')
     fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
-    return fig
+    return fig, len(df) 
 
 @ dash_app.callback(
     Output(component_id="common_words_bar_chart", component_property="figure"),
-    Input(component_id="output-div", component_property="children"),
+    Input(component_id="memory-output", component_property="data"),
 
 )
-def common_words_bar_chart(keyword):
- if len(keyword) >1 :
-    data = get_tweets(10, keyword)
-    print(data)
+def common_words_bar_chart(data):
+ if not (data == None):
+    # data = get_tweets(100, keyword)
+    # print(data)
+    data = data['data']
     tuples = common_words(data, 10)
     df = pd.DataFrame(tuples)
     df.rename(columns = {0 : 'Words', 1 : 'Occurances'}, inplace = True)
-    print(df)
+    # print(df)
   
     
     fig = px.bar(df, x=df["Occurances"], y=df['Words'])
+
+    return fig
+
+@ dash_app.callback(
+    Output(component_id="hashtags_bar_chart", component_property="figure"),
+    Input(component_id="memory-output", component_property="data"),
+
+)
+def hashtags_bar_chart(data):
+ if not (data == None):
+    # data = get_tweets(100, keyword)
+    # print(data)
+    data = data['data']
+    print("--------------  data ______________________-")
+    print(data)
+    data = [w["entities"] for w in data]
+    print("-------------- entity data ______________________-")
+    print(data)
+    data = [w["hashtags"] for w in data]
+    print("-------------- hashtag data ______________________-")
+    tags = []
+    for i in data:
+        print(i)
+        for j in i:
+            print(j)
+            tags.append(j['tag'])
+    print(tags)
+    fd = nltk.FreqDist(tags)
+    print(fd)
+    occurances = fd.most_common(10)
+    print(occurances)
+    df = pd.DataFrame(occurances)
+    df.rename(columns = {0 : 'Hashtags', 1 : 'Occurances'}, inplace = True)
+    
+    
+  
+    
+    fig = px.bar(df, x=df["Occurances"], y=df['Hashtags'])
 
     return fig
 
