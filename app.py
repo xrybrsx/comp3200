@@ -21,7 +21,7 @@ from database import store_tweets, get_tweets, get_users, store_users
 # my_dboard.get_preview()
 __local_storage = []
 
-dash_app = dash.Dash(external_stylesheets=[dbc.themes.MORPH])
+dash_app = dash.Dash(external_stylesheets=[dbc.themes.MORPH, "/style.css"])
 #dash_app
 # = dash.Dash()
 app = dash_app.server
@@ -139,6 +139,8 @@ dash_app.layout = html.Div(
         #     children="This is project towards a BSc Computer Science degree aiming to do a research on the public's opinion.",
         #    className="text-center"
         # ),
+        
+       
         dbc.Row([
            
             
@@ -147,7 +149,7 @@ dash_app.layout = html.Div(
              dbc.Col(dcc.Graph(id="pie-chart"),  md=4),
             ]),
             
-dbc.Row([
+        dbc.Row([
             dbc.Col(dcc.Graph(id="sentiment_plot"), md=8),
             
             dbc.Col(html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", style={"width": "450px", "height":"450px"}),)# style=height:200px;width:300px;")),
@@ -169,7 +171,8 @@ dbc.Row([
     #   ##  dcc.Graph(id="pie-chart-locations"),
     #     dcc.Graph(id="pie-sunburst-locations")
         #dcc.Graph(id="common_words_bar_chart")
-    ],
+    ]
+
 )
 
 
@@ -180,6 +183,8 @@ dbc.Row([
 #     "external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"
 # })
 
+
+
 @dash_app.callback(
     Output('output-div','children' ), 
     Output('memory-output','data'), 
@@ -188,7 +193,7 @@ dbc.Row([
     
     )
 def update_output(clicks, input_value):
-        if clicks is not None:
+        if clicks > 0:
             
             url = twitter.tweets_full_info_url(input_value,100)
             tweets = twitter.twitter_auth_and_connect(bearer_token, url)
@@ -295,7 +300,7 @@ def generate_count_graph(search_keyword):
 )
 
 def generate_sentiment_plot(data):
-  if not (data == None):
+  if not (data == "none"):
     
     # tweets = twitter.search_hashtag_url(keyword, 10)
     # store(tweets)
@@ -403,7 +408,7 @@ def click(clickData):
 
 )
 def generate_pie(data):
- if not (data == None):
+ if not (data == "none"):
     # data = get_tweets(100, keyword)
     data = data['data']
     # print("--------------- json_sentiment -----------------")
@@ -426,7 +431,7 @@ def generate_pie(data):
 
 )
 def generate_sunburst(data):
-  if not (data == None):
+  if not (data == "none"):
     data = data['data']
     context = {}
     context["domain"] = []
@@ -507,7 +512,7 @@ def generate_sunburst(data):
 
 )
 def generate_sunburst_locations(data):
-  if not (data == None):
+  if not (data == "none"):
     data = data['includes']
     data = data['users']
     df = pd.json_normalize(data)
@@ -537,7 +542,7 @@ def generate_sunburst_locations(data):
 
 )
 def common_words_bar_chart(data):
- if not (data == None):
+ if not (data == "none"):
     # data = get_tweets(100, keyword)
     # print(data)
     data = data['data']
@@ -557,7 +562,7 @@ def common_words_bar_chart(data):
 
 )
 def hashtags_bar_chart(data):
- if not (data == None):
+ if not (data == "none"):
     # data = get_tweets(100, keyword)
     # print(data)
     data = data['data']
