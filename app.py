@@ -67,10 +67,13 @@ dash_app.layout = html.Div(
         dbc.Container(
             [ 
                
-                
+                dbc.Row([
+                    dbc.Col(html.P("Overall last 7 days:", style={'margin-left':'110px'})),
+                    dbc.Col( html.P("Most recent 100 tweets:", style={'margin-left':'0px'}))
+                  
+]),
                 dbc.Row([
                    
-
                     dbc.Col(dbc.Card(
                         [
                             html.P("No. of Tweets"),
@@ -79,8 +82,10 @@ dash_app.layout = html.Div(
                                  className="card-text",
                               
                             )
-                        ]), md = 2 ),
+                        ]), md = 2, style={'margin-right':'50px'}),
 
+                   
+                       
                     dbc.Col(dbc.Card(
                         [
                             html.P("No. of Users"),
@@ -121,7 +126,8 @@ dash_app.layout = html.Div(
                                  className="card-text",
                                
                             )
-                        ]), md = 2),
+                        ]), md = 2)
+                  
                  
                 ], className="text-center pad-row",
                  align="center",
@@ -156,7 +162,7 @@ dash_app.layout = html.Div(
 ], style={"border-style" : "solid", "margin": "10px"}),
              dbc.Row([
             
-             dbc.Col([ html.H6("Topics and Domains", style={"margin-left":"10px"}),dcc.Graph(id="sunburst_chart")], md=6),
+             dbc.Col([ html.H6("Topics and Domains", style={"margin-left":"10px"}),html.P("Click to expand"), dcc.Graph(id="sunburst_chart")], md=6),
              dbc.Col([html.H6("Location of Users",  style={"margin-left":"10px"}), dcc.Graph(id="pie-sunburst-locations")], md=6 ),
             ], ),
             dbc.Row([
