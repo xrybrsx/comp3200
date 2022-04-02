@@ -31,8 +31,6 @@ jobs:
         run: python3 -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install nltk
-          python3 -m nltk.downloader stopwords
-          python3 -m nltk.downloader vader_lexicon
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 

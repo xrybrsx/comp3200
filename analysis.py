@@ -8,6 +8,8 @@ import string
 import pandas as pd
 from nltk.corpus import stopwords
 
+stopwords = nltk.download('stopwords')
+
 # from numpy import negative, positive
 # import pandas as pd
 
@@ -195,6 +197,8 @@ def get_sentiment_percentage(data):
 
 
 def analyse(data):
+    nltk.download('stopwords')
+    nltk.download('vader_lexicon')
     text = []
     sentiment_list = []
     # sentiment_list["text"] = []
@@ -207,6 +211,7 @@ def analyse(data):
     # print(text)
     stopwords = nltk.corpus.stopwords.words("english")
     sentences = [w for w in text if w.lower() not in stopwords]
+    
 
     
    
