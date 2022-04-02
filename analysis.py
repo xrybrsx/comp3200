@@ -243,7 +243,7 @@ def common_words(data, n):
         # print(w)
         #  print(w)
         
-    stop_words = set(stopwords.words('english'))
+    stop_words = set(nltk.corpus.stopwords.words('english'))
     filtered_sentence = [w for w in text if not w.lower() in stop_words]
     print(filtered_sentence)
     filtered_sentence = [w for w in filtered_sentence if len(w)>2]
