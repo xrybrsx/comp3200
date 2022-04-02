@@ -21,7 +21,7 @@ from database import store_tweets, get_tweets, get_users, store_users
 # my_dboard.get_preview()
 __local_storage = []
 
-dash_app = dash.Dash(external_stylesheets=[dbc.themes.MORPH, "/style.css"])
+dash_app = dash.Dash(external_stylesheets=[dbc.themes.MORPH])
 #dash_app
 # = dash.Dash()
 app = dash_app.server
@@ -46,7 +46,7 @@ dash_app.layout = html.Div(
             dbc.Collapse(
                 dbc.Row(
     [
-        dbc.Col(dcc.Input(id='search_keyword', type="search", placeholder="Serach a word")),
+        dbc.Col(dcc.Input(id='search_keyword', type="search", placeholder="Search a word")),
         dbc.Col(children=[
             dbc.Button(
                 "Search",id='submit-button', color="primary", className="ms-1", n_clicks=0
@@ -150,14 +150,14 @@ dash_app.layout = html.Div(
             ]),
             
         dbc.Row([
-            dbc.Col(dcc.Graph(id="sentiment_plot"), md=8),
+            dbc.Col(dcc.Graph(id="sentiment_plot", ), md=8),
             
-            dbc.Col(html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", style={"width": "450px", "height":"450px"}),)# style=height:200px;width:300px;")),
+            dbc.Col(html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", style={"width": "450px", "height":"450px"}), md = 4)# style=height:200px;width:300px;")),
 ])  ,
              dbc.Row([
             
-             dbc.Col(dcc.Graph(id="sunburst_chart"), md=8),
-             dbc.Col(dcc.Graph(id="pie-sunburst-locations")  ),
+             dbc.Col(dcc.Graph(id="sunburst_chart"), md=6),
+             dbc.Col(dcc.Graph(id="pie-sunburst-locations"), md=6 ),
             ], ),
             dbc.Row([
             dbc.Col(dcc.Graph(id="common_words_bar_chart")),
@@ -239,12 +239,14 @@ def generate_count_graph(search_keyword):
     final = df[['start', 'tweet_count']]
    # print(final)
     fig = px.line(final, x="start", y="tweet_count")
+    
     # fig.update_layout( plot_bgcolor='rgb(10,10,10)')
-    # fig.update_layout(
-    #     plot_bgcolor=colors["background"],
-    #     paper_bgcolor=colors["background"],
-    #     font_color=colors["text"],
-    # )
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        
+        
+    )
     return fig, __twitter_count
 
 
@@ -355,8 +357,13 @@ def generate_sentiment_plot(data):
     # final = df[['text', 'sentiment']]
     
     fig = px.scatter(df, x=df["sentiment.positive"], y=df["sentiment.negative"], hover_data=[
-         'id'],  labels={'sentiment.positive': 'positive weight', 'sentiment.negative': 'negative weight', "sentiment.compound": "compound"}, color=df["sentiment.compound"], color_continuous_scale=px.colors.sequential.RdBu)
+         'id'],  labels={'sentiment.positive': 'positive weight', 'sentiment.negative': 'negative weight', "sentiment.compound": "compound"}, color=df["sentiment.compound"], color_continuous_scale=px.colors.sequential.Blues)
     fig.update_layout(clickmode='event+select')
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+        
+    )
 
     fig.update_traces(marker_size=10)
    
@@ -421,6 +428,11 @@ def generate_pie(data):
     names = ['negative', 'neutral', "positive"]
     fig = px.pie(df, values=df.values[0], names=df.columns,
                  title='Percentage of Sentiment', color_discrete_sequence=px.colors.sequential.Blues)
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+        
+    )
 
     return fig
 
@@ -470,8 +482,14 @@ def generate_sunburst(data):
     # ))
     # fig.show()
     fig = px.sunburst(
-        data, path=['domain', 'entity'], values=[1]*len(data), labels={"value": "number"})
+        data, path=['domain', 'entity'], values=[1]*len(data), labels={"value": "number"}, color_discrete_sequence=px.colors.sequential.Blues)
     fig.update_traces(insidetextorientation='radial')
+    fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+        
+    )
     #fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
     #   plot_bgcolor=colors["background"],
     #   paper_bgcolor=colors["background"],
@@ -530,10 +548,15 @@ def generate_sunburst_locations(data):
     
     # print(df)
     
-    fig = px.sunburst(df, path=['location'], values=[1]*len(df["location"]),labels={"null": "Unknown", "value": "# of users"},
+    fig = px.sunburst(df, path=['location'], values=[1]*len(df["location"]),names=df["location"],labels={"null": "Unknown", "value": "# of users"},
                  title='Location of Users', color_discrete_sequence=px.colors.sequential.Blues)
     fig.update_traces(insidetextorientation='radial')
     fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+        
+    )
     return fig, len(df) 
 
 @ dash_app.callback(
@@ -553,6 +576,11 @@ def common_words_bar_chart(data):
   
     
     fig = px.bar(df, x=df["Occurances"], y=df['Words'])
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+        
+    )
 
     return fig
 
@@ -591,6 +619,11 @@ def hashtags_bar_chart(data):
   
     
     fig = px.bar(df, x=df["Occurances"], y=df['Hashtags'])
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+        
+    )
 
     return fig
 
