@@ -131,11 +131,11 @@ dash_app.layout = html.Div(
                  
                 ], className="text-center pad-row",
                  align="center",
-                 justify ="center"), 
+                 justify ="center"),
 
             ],
             id="infoContainer",
-            style={"padding": "1em"},
+            style={"padding": "1em", "display":"none"},
             className = "container-fluid ",
             
         ),
@@ -196,6 +196,7 @@ dash_app.layout = html.Div(
     Output('output-div','children' ), 
     Output('memory-output','data'), 
     Output('div','style'), 
+    Output('infoContainer','style'), 
     [Input('submit-button', 'n_clicks')],
     [State('search_keyword', 'value')], 
     
@@ -218,7 +219,7 @@ def update_output(clicks, input_value):
             
             # store_tweets(tweets, input_value)
             # store_users(tweets,input_value)
-            return input_value, data, {'display':'inline'}
+            return input_value, data, {'display':'inline'}, {'display':'inline'}
 
 @ dash_app.callback(
     Output(component_id="count", component_property="figure"),
@@ -429,7 +430,7 @@ def generate_pie(data):
     json_sentiment = get_sentiment_percentage(data)
     df = pd.json_normalize(json_sentiment)
 
-    # print(df)
+    print(df)
 
     #print(df.values)
     names = ['negative', 'neutral', "positive"]
@@ -604,24 +605,24 @@ def hashtags_bar_chart(data):
     # data = get_tweets(100, keyword)
     # print(data)
     data = data['data']
-    print("--------------  data ______________________-")
-    print(data)
+    # print("--------------  data ______________________-")
+    # print(data)
     data = [w["entities"] for w in data]
-    print("-------------- entity data ______________________-")
-    print(data)
+    # print("-------------- entity data ______________________-")
+    # print(data)
     data = [w["hashtags"] for w in data]
-    print("-------------- hashtag data ______________________-")
+    # print("-------------- hashtag data ______________________-")
     tags = []
     for i in data:
-        print(i)
+        # print(i)
         for j in i:
-            print(j)
+            # print(j)
             tags.append(j['tag'])
-    print(tags)
+    # print(tags)
     fd = nltk.FreqDist(tags)
-    print(fd)
+    # print(fd)
     occurances = fd.most_common(10)
-    print(occurances)
+    # print(occurances)
     df = pd.DataFrame(occurances)
     df.rename(columns = {0 : 'Hashtags', 1 : 'Occurances'}, inplace = True)
     

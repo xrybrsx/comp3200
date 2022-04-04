@@ -189,8 +189,14 @@ def get_sentiment_percentage(data):
         neu = neu + pair['neutral']
         # print("neutral")
     pos = pos/number
+    pos = pos*2
     neg = neg/number
-    neu = neu/number
+    neg = neg*2
+    neu = 1 - (pos+neg)
+    
+    # neu = neu - half
+    # pos = pos+ (half/2)
+    # neg= neg + ( half - (half/2))
     arr = {"positive": pos, "neutral": neu, "negative": neg}
     return arr
 
@@ -252,8 +258,8 @@ def common_words(data, n):
     stop_words = set(nltk.corpus.stopwords.words('english'))
     filtered_sentence = [w for w in text if not w.lower() in stop_words]
     print(filtered_sentence)
-    filtered_sentence = [w for w in filtered_sentence if len(w)>2]
-    print(filtered_sentence)
+    
+    
     for w in filtered_sentence :
         #  print(w)
        
@@ -261,6 +267,10 @@ def common_words(data, n):
         tmp = tmp + nltk.word_tokenize(w)
    
     tmp = [w for w in tmp if len(w)>2]
+    tmp = [w.lower() for w in tmp]
+    tmp = [w for w in tmp if not w == 'you' and not w == 'the' and not w == 'the' and not w == 'and' and not w == 'for' and not w == 'not' and not w == 'does' and not w == 'have' and not w == 'your' and not w == 'out' and not w == 'that' and not w == 'how' and not w == 'this' and not w == 'all' and not w == 'our' and not w == 'their' and not w == 'my' and not w == 'mine' and not w == 'with' and not w == 'can' and not w == 'only' and not w == 'he' and not w == 'she' and not w == 'her' and not w == 'his' and not w == 'ours' and not w == 'is' and not w == 'will' and not w == 'but' and not w == 'are' and not w == 'more']
+    print("--------------- tmp_----------______________")
+    print(tmp) 
     fd = nltk.FreqDist(tmp)
     
     return fd.most_common(n)
