@@ -146,29 +146,30 @@ dash_app.layout = html.Div(
         #    className="text-center"
         # ),
         
-       
+       html.Div([
         dbc.Row([
            
             
             
-             dbc.Col(dcc.Graph(id="count"), md=8),
+             dbc.Col(dcc.Graph(id="count" ), md=8),
              dbc.Col(dcc.Graph(id="pie-chart"),  md=4),
             ]),
             
         dbc.Row([
-            dbc.Col(dcc.Graph(id="sentiment_plot", ), md=8),
+            dbc.Col(dcc.Graph(id="sentiment_plot"), md=8),
             
-            dbc.Col(html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", style={"width": "450px", "height":"450px", "margin": "10px"}), md = 4)# style=height:200px;width:300px;")),
+            dbc.Col(html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", style={"width": "400px", "height":"450px", "margin": "10px"}), md = 4)# style=height:200px;width:300px;")),
 ], style={"border-style" : "solid", "margin": "10px"}),
              dbc.Row([
             
-             dbc.Col([ html.H6("Topics and Domains", style={"margin-left":"10px"}),html.P("Click to expand"), dcc.Graph(id="sunburst_chart")], md=6),
-             dbc.Col([html.H6("Location of Users",  style={"margin-left":"10px"}), dcc.Graph(id="pie-sunburst-locations")], md=6 ),
+             dbc.Col([ html.H6("Topics and Domains", style={"margin-left":"15px"}),html.P("Click to expand",  style={"margin-left":"50px"}), dcc.Graph(id="sunburst_chart")], md=6),
+             dbc.Col([html.H6("Location of Users",  style={"margin-left":"15px"}), dcc.Graph(id="pie-sunburst-locations")], md=6 ),
             ], ),
             dbc.Row([
-            dbc.Col(dcc.Graph(id="common_words_bar_chart")),
-            dbc.Col(dcc.Graph(id="hashtags_bar_chart"))
-              ], ),
+            dbc.Col(dcc.Graph(id="common_words_bar_chart"), md=6),
+            dbc.Col(dcc.Graph(id="hashtags_bar_chart"), md=6)
+              ]),
+       ], id="div", style={'display':'none'})
             
         #    dcc.Graph(id="sentiment")
         # dcc.Graph(id="count"),
@@ -194,6 +195,7 @@ dash_app.layout = html.Div(
 @dash_app.callback(
     Output('output-div','children' ), 
     Output('memory-output','data'), 
+    Output('div','style'), 
     [Input('submit-button', 'n_clicks')],
     [State('search_keyword', 'value')], 
     
@@ -216,7 +218,7 @@ def update_output(clicks, input_value):
             
             # store_tweets(tweets, input_value)
             # store_users(tweets,input_value)
-            return input_value, data
+            return input_value, data, {'display':'inline'}
 
 @ dash_app.callback(
     Output(component_id="count", component_property="figure"),
@@ -368,7 +370,6 @@ def generate_sentiment_plot(data):
     fig.update_layout(
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)'
-        
     )
 
     fig.update_traces(marker_size=10)
@@ -434,9 +435,12 @@ def generate_pie(data):
     names = ['negative', 'neutral', "positive"]
     fig = px.pie(df, values=df.values[0], names=df.columns,
                  title='Percentage of Sentiment', color_discrete_sequence=px.colors.sequential.Blues)
+    
+    
     fig.update_layout(
         plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)'
+        paper_bgcolor='rgba(0,0,0,0)',
+        
         
     )
 
@@ -490,10 +494,10 @@ def generate_sunburst(data):
     fig = px.sunburst(
         data, path=['domain', 'entity'], values=[1]*len(data), labels={"value": "number"}, color_discrete_sequence=px.colors.sequential.Blues, title='Topics and Domains')
     fig.update_traces(insidetextorientation='radial')
-    fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
+    fig.update_layout( margin=dict(t=0, l=0, r=0, b=0) )
     fig.update_layout(
         plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)'
+        paper_bgcolor='rgba(0,0,0,0)' 
         
     )
     #fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
