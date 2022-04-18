@@ -4,3 +4,10 @@
 .env
 venv
 antenv
+.vscode
+negative.txt
+positive.txt
+*.css
+twitter_api_example.json
+database.py
+config.yaml

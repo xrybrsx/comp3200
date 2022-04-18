@@ -645,4 +645,4 @@ def hashtags_bar_chart(data):
 
 if __name__ == "__main__":
     dash_app.run_server(debug=True)
-    # generate_pie("python")
+   
