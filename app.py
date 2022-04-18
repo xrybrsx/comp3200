@@ -547,8 +547,9 @@ def generate_sunburst_locations(data):
     data = data['includes']
     data = data['users']
     df = pd.json_normalize(data)
-    df['location'] = nan
-    print("------------------location____________________")
+    if check('location', df) == False:
+        df['location'] = nan
+    print("_________________location____________________")
     print(df)
     j = 0 
     for i in df['location']:
@@ -642,6 +643,11 @@ def hashtags_bar_chart(data):
 
     return fig
 
+def check(col, df):
+   if col in df:
+      return True
+   else:
+      return False
 
 if __name__ == "__main__":
     dash_app.run_server(debug=True)
