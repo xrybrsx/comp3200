@@ -1,3 +1,4 @@
+from math import nan
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc
@@ -28,7 +29,7 @@ app = dash_app.server
 
 
 # data = twitter.process_yaml()
-bearer_token = 'AAAAAAAAAAAAAAAAAAAAACJWYQEAAAAAJ8L97yf%2FLbDoTTQLW77TcQLT8HQ%3D7GqMszwYUwK8lx8GFuhROYpIym8AyWQB0t6e7pEBeSbBBjTgny'
+bearer_token = 'AAAAAAAAAAAAAAAAAAAAACJWYQEAAAAACriocBC%2FlXEGUZF3YHgceapF3kw%3DGXfPmROcqJzTdujlbxdfyuViqsjOpqwIsvBTMoAFNsr1QYqdV4'
 
 
 __twitter_count = 0
@@ -206,6 +207,7 @@ def update_output(clicks, input_value):
             
             url = twitter.tweets_full_info_url(input_value,100)
             tweets = twitter.twitter_auth_and_connect(bearer_token, url)
+            print(tweets)
             data = tweets
             data = str(data)
             data = eval(data)
@@ -356,9 +358,9 @@ def generate_sentiment_plot(data):
     # df = pd.DataFrame(sentiment_score)
     # print(sentiment_score)
     df = pd.json_normalize(sentiment_score)
-    # print("df\n--------------------")
+   # print("df\n--------------------")
     df["id"] = tmp
-    # print(df)
+   # print(df)
     
    
     
@@ -426,14 +428,14 @@ def generate_pie(data):
  if not (data == "none"):
     # data = get_tweets(100, keyword)
     data = data['data']
-    # print("--------------- json_sentiment -----------------")
+    #print("--------------- json_sentiment -----------------")
     json_sentiment = get_sentiment_percentage(data)
     df = pd.json_normalize(json_sentiment)
 
-    print(df)
+    #print(df)
 
     #print(df.values)
-    names = ['negative', 'neutral', "positive"]
+    names = ['negative', "positive"]
     fig = px.pie(df, values=df.values[0], names=df.columns,
                  title='Percentage of Sentiment', color_discrete_sequence=px.colors.sequential.Blues)
     
@@ -545,7 +547,9 @@ def generate_sunburst_locations(data):
     data = data['includes']
     data = data['users']
     df = pd.json_normalize(data)
-    
+    df['location'] = nan
+    print("------------------location____________________")
+    print(df)
     j = 0 
     for i in df['location']:
         
