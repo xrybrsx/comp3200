@@ -159,8 +159,19 @@ dash_app.layout = html.Div(
         dbc.Row([
             dbc.Col(dcc.Graph(id="sentiment_plot"), md=8),
             
-            dbc.Col(html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", style={"width": "400px", "height":"450px", "margin": "10px"}), md = 4)# style=height:200px;width:300px;")),
-], style={"border-style" : "solid", "margin": "10px"}),
+            dbc.Col([html.Div(id="block", style={
+                "position": "absolute",
+    "width": "250px",
+    "height": "100px",
+    "z-index": "2",
+    "top": "10px",
+    "left": "10px",
+    "display": "block",
+    "color": '#fff'}),
+                html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", 
+                style={"width": "400px", "height":"450px", "margin": "10px"})]
+                , md = 4)# style=height:200px;width:300px;")),
+], style={"border-style" : "solid", "margin": "10px", "position": "relative"}),
              dbc.Row([
             
              dbc.Col([ html.H6("Topics and Domains", style={"margin-left":"15px"}),html.P("Click to expand",  style={"margin-left":"50px"}), dcc.Graph(id="sunburst_chart")], md=6),
@@ -650,5 +661,5 @@ def check(col, df):
       return False
 
 if __name__ == "__main__":
-    dash_app.run_server(debug=True)
+    dash_app.run_server(debug=False)
    
