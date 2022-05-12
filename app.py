@@ -149,8 +149,6 @@ dash_app.layout = html.Div(
         
        html.Div([
         dbc.Row([
-           
-            
             
              dbc.Col(dcc.Graph(id="count" ), md=8),
              dbc.Col(dcc.Graph(id="pie-chart"),  md=4),
@@ -159,19 +157,26 @@ dash_app.layout = html.Div(
         dbc.Row([
             dbc.Col(dcc.Graph(id="sentiment_plot"), md=8),
             
-            dbc.Col([html.Div(id="block", style={
-                "position": "absolute",
-    "width": "250px",
-    "height": "100px",
-    "z-index": "2",
-    "top": "10px",
-    "left": "10px",
-    "display": "block",
-    "color": '#fff'}),
-                html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", 
-                style={"width": "400px", "height":"450px", "margin": "10px"})]
-                , md = 4)# style=height:200px;width:300px;")),
-], style={"border-style" : "solid", "margin": "10px", "position": "relative"}),
+            dbc.Col(
+                        [ 
+                            html.Div(id="block", 
+                                        style={
+                                        "position": "absolute",
+                                        "width": "400px",
+                                        "height": "90px",
+                                        "overflow": "true", 
+                                        "z-index": "10",
+                                        "top": "0px",
+                                        "left": "970px",
+                                        "display": "block",
+                                        "background-color": "#d9e3f1"}
+                                    ),
+                            html.Iframe(id="tweet-iframe", src="https://twitframe.com/show?url=https://twitter.com/twitter/status/1509817484681134097", 
+                 style={"width": "400px", "height":"420px", "margin": "10px",  "position" : "absolute" , "top": "0px"} 
+                )
+                        ], md = 4)# style=height:200px;width:300px;")),
+                    ], style={"border-style" : "solid", "margin": "5px", "position": "relative"} ), 
+                    
              dbc.Row([
             
              dbc.Col([ html.H6("Topics and Domains", style={"margin-left":"15px"}),html.P("Click to expand",  style={"margin-left":"50px"}), dcc.Graph(id="sunburst_chart")], md=6),
