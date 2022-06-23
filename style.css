@@ -1,9 +1,0 @@
-*[data-dash-is-loading="true"] {
-  visibility: hidden;
-}
-*[data-dash-is-loading="true"]::before {
-  content: "Loading...";
-  display: inline-block;
-  color: magenta;
-  visibility: visible;
-}
