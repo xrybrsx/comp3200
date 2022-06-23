@@ -101,7 +101,7 @@ def twitter_auth_and_connect(bearer_token, url):
 
 
 # def main():
-#     keyword = "pole dance"
+#     keyword = "python"
 #     url = search_keyword_url(keyword, 10)
 #     data = process_yaml()
 #     bearer_token = create_bearer_token(data)
@@ -109,7 +109,7 @@ def twitter_auth_and_connect(bearer_token, url):
 #     print(res_json)
 
 #     client = authenticate_client()
-#     # print(tweets(res_json))
+#     
 #     print(analyse(client, res_json['data']))
 
 # 😂
